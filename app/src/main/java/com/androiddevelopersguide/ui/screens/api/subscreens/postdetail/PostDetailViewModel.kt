@@ -1,9 +1,9 @@
-package com.androiddevelopersguide.ui.screens.postsscreen
+package com.androiddevelopersguide.ui.screens.api.subscreens.postdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.androiddevelopersguide.domain.models.Post
-import com.androiddevelopersguide.domain.usecases.GetPostsUseCase
+import com.androiddevelopersguide.domain.usecases.GetPostDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,20 +12,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PostsViewModel @Inject constructor(
-    private val getPostsUseCase: GetPostsUseCase
+class PostDetailViewModel @Inject constructor(
+    private val getPostDetailUseCase: GetPostDetailUseCase
 ) : ViewModel() {
 
-    private val _posts = MutableStateFlow<List<Post>>(emptyList())
-    val posts: StateFlow<List<Post>> = _posts.asStateFlow()
+    private val _post = MutableStateFlow<Post?>(null)
+    val post: StateFlow<Post?> = _post.asStateFlow()
 
-    init {
-        loadPosts()
-    }
-
-    private fun loadPosts() {
+    fun loadPost(id: Int) {
         viewModelScope.launch {
-            _posts.value = getPostsUseCase()
+            _post.value = getPostDetailUseCase(id)
         }
     }
 }

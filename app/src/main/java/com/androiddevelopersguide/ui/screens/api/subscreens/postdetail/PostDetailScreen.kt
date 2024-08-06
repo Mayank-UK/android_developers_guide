@@ -1,4 +1,4 @@
-package com.androiddevelopersguide.ui.screens.postdetailscreen
+package com.androiddevelopersguide.ui.screens.api.subscreens.postdetail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

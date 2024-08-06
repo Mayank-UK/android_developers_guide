@@ -1,4 +1,4 @@
-package com.androiddevelopersguide.ui.screens.postsscreen
+package com.androiddevelopersguide.ui.screens.api.subscreens.posts
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding

@@ -7,25 +7,31 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.androiddevelopersguide.ui.screens.postdetailscreen.PostDetailScreen
-import com.androiddevelopersguide.ui.screens.postsscreen.PostsScreen
+import com.androiddevelopersguide.ui.screens.api.subscreens.postdetail.PostDetailScreen
+import com.androiddevelopersguide.ui.screens.api.subscreens.posts.PostsScreen
+import com.androiddevelopersguide.ui.screens.home.HomeScreen
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    NavHost(navController, startDestination = "posts", modifier) {
-        composable("posts") {
+    NavHost(navController, startDestination = Screen.HomeScreen.route, modifier) {
+        composable(Screen.HomeScreen.route) {
+            HomeScreen(navController = navController)
+        }
+
+        composable(Screen.PostsScreen.route) {
             PostsScreen(onUserClick = { postId ->
-                navController.navigate("post_detail/$postId")
+                navController.navigate("${Screen.PostDetailScreen.route}/$postId")
             })
         }
+
         composable(
-            "post_detail/{postId}",
-            arguments = listOf(navArgument("postId") { type = NavType.IntType })
+            Screen.PostDetailScreen.route + Screen.PostDetailScreen.objectPath,
+            arguments = listOf(navArgument(Screen.PostDetailScreen.objectName) { type = NavType.IntType })
         ) { backStackEntry ->
-            val postId = backStackEntry.arguments?.getInt("postId") ?: return@composable
+            val postId = backStackEntry.arguments?.getInt(Screen.PostDetailScreen.objectName) ?: return@composable
             PostDetailScreen(postId = postId)
         }
     }
