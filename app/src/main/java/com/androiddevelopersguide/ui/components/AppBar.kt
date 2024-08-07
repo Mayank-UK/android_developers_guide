@@ -34,7 +34,7 @@ fun AppBar(
         },
         actions = actions,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF4B0082),
+            containerColor = Color(0xFF007aff),
             titleContentColor = Color.White,
             navigationIconContentColor = Color.White,
             actionIconContentColor = Color.White
