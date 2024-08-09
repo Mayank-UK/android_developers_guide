@@ -48,10 +48,18 @@ sealed class NavRouter(
     // xml layout
     object XmlLayoutScreen : NavRouter("xml_layout")
 
+    // other basics
+    object OtherBasicsScreen : NavRouter("other_basics")
+        object ActivityScreen : NavRouter("activity")
+        object IntentScreen : NavRouter("intent")
+        object ServiceScreen : NavRouter("service")
+        object BroadcastReceiverScreen : NavRouter("broadcast_receiver")
+        object ContentProviderScreen : NavRouter("content_provider")
+
     // lifecycle
     object LifecycleScreen : NavRouter("lifecycle")
         object ActivityLifecycleScreen : NavRouter("activity_lifecycle")
-        object BroadcastReceiverScreen : NavRouter("broadcast_receiver")
+        object BroadcastReceiverLifecycleScreen : NavRouter("broadcast_receiver_lifecycle")
         object FragmentLifecycleScreen : NavRouter("fragment_lifecycle")
         object JetpackComposeLifecycleReferScreen : NavRouter("jetpack_compose_lifecycle_refer")
         object ServiceLifecycleScreen : NavRouter("service_lifecycle")

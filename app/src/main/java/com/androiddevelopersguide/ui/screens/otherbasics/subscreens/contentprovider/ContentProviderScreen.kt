@@ -1,4 +1,4 @@
-package com.androiddevelopersguide.ui.screens.lifecycle.subscreens.broadcastreceiverlifecycle
+package com.androiddevelopersguide.ui.screens.otherbasics.subscreens.contentprovider
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -7,18 +7,17 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
-import com.androiddevelopersguide.ui.screens.lifecycle.LifecycleScreen
 
 @Composable
-fun BroadcastReceiverScreen(
+fun ContentProviderScreen(
     navController: NavController,
-    viewModel: BroadcaseReceiverViewModel = hiltViewModel(),
+    viewModel: ContentProviderViewModel = hiltViewModel(),
 ) {
     PageScaffold(
         topBar = {
             AppBar(
                 navController = navController,
-                title = "Broadcast receiver lifecycle",
+                title = "Content provider",
             )
         },
     ) {
@@ -28,6 +27,6 @@ fun BroadcastReceiverScreen(
 
 @Preview
 @Composable
-fun BroadcastReceiverScreenPreview() {
-    BroadcastReceiverScreen(navController = rememberNavController())
+fun ContentProviderScreenPreview() {
+    ContentProviderScreen(navController = rememberNavController())
 }

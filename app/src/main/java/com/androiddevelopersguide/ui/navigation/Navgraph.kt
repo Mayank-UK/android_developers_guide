@@ -50,11 +50,17 @@ import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipul
 import com.androiddevelopersguide.ui.screens.kotlinfundamentals.KotlinFundamentalsScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.LifecycleScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.activitylifecycle.ActivityLifecycleScreen
-import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.broadcastreceiverlifecycle.BroadcastReceiverScreen
+import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.broadcastreceiverlifecycle.BroadcastReceiverLifecycleScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.fragmentlifecycle.FragmentLifecycleScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.jetpackcomposelifecycle.JetpackComposeLifecycleReferScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.servicelifecycle.ServiceLifecycleScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.viewmodellifecycle.ViewModelLifecycleScreen
+import com.androiddevelopersguide.ui.screens.otherbasics.OtherBasicsScreen
+import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.activity.ActivityScreen
+import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.broadcastreceiver.BroadcastReceiverScreen
+import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.contentprovider.ContentProviderScreen
+import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.intent.IntentScreen
+import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.service.ServiceScreen
 import com.androiddevelopersguide.ui.temp.TempScreen
 
 @Composable
@@ -106,10 +112,18 @@ fun NavGraph(
         // xml layout
 //        composable(NavRouter.XmlLayoutScreen.route) { XmlLayoutScreen(navController = navController) }
 
+        // other basics
+        composable(NavRouter.OtherBasicsScreen.route) { OtherBasicsScreen(navController = navController) }
+            composable(NavRouter.ActivityScreen.route) { ActivityScreen(navController = navController) }
+            composable(NavRouter.IntentScreen.route) { IntentScreen(navController = navController) }
+            composable(NavRouter.ServiceScreen.route) { ServiceScreen(navController = navController) }
+            composable(NavRouter.BroadcastReceiverScreen.route) { BroadcastReceiverScreen(navController = navController) }
+            composable(NavRouter.ContentProviderScreen.route) { ContentProviderScreen(navController = navController) }
+
         // lifecycle
         composable(NavRouter.LifecycleScreen.route) { LifecycleScreen(navController = navController) }
             composable(NavRouter.ActivityLifecycleScreen.route) { ActivityLifecycleScreen(navController = navController) }
-            composable(NavRouter.BroadcastReceiverScreen.route) { BroadcastReceiverScreen(navController = navController) }
+            composable(NavRouter.BroadcastReceiverLifecycleScreen.route) { BroadcastReceiverLifecycleScreen(navController = navController) }
             composable(NavRouter.FragmentLifecycleScreen.route) { FragmentLifecycleScreen(navController = navController) }
             composable(NavRouter.JetpackComposeLifecycleReferScreen.route) { JetpackComposeLifecycleReferScreen(navController = navController) }
             composable(NavRouter.ServiceLifecycleScreen.route) { ServiceLifecycleScreen(navController = navController) }
