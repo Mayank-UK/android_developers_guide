@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
+import com.androiddevelopersguide.ui.components.Section
 import com.androiddevelopersguide.ui.temp.TempScreen
 
 @Composable
@@ -22,8 +23,59 @@ fun ScreenStructureScreen(
             )
         },
     ) {
-
+        SimpleStructure()
     }
+}
+
+@Composable
+fun SimpleStructure() {
+    Section(
+        title = "Simple structure",
+        description = """
+            The screen should follow a consistent simple structure. Divide the UI into different functions and then compose in the top function.
+            Avoid nested UI functions to optimize for performance. 
+        """.trimIndent(),
+        code = """
+            @Composable
+            fun TempScreen(
+                navController: NavController,
+                viewModel: TempViewModel = hiltViewModel(),
+            ) {
+                PageScaffold(
+                    topBar = {
+                        AppBar(
+                            navController = navController,
+                            title = "Temp Screen",
+                        )
+                    },
+                ) {
+                    Temp()
+                }
+            }
+
+            @Composable
+            fun Temp() {
+                Section(
+                    title = "",
+                    description = ""${'"'}
+                        
+                    ""${'"'}.trimIndent(),
+                    demo = {
+
+                    },
+                    code = ""${'"'}
+                        
+                    ""${'"'}.trimIndent()
+                )
+            }
+
+            @Preview
+            @Composable
+            fun TempScreenPreview() {
+                TempScreen(navController = rememberNavController())
+            }
+        """.trimIndent()
+    )
 }
 
 @Preview

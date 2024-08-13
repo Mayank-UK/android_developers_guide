@@ -87,14 +87,14 @@ fun Section(
             }
             AnimatedVisibility(visible = isExpanded) {
                 LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     item {
                         Text(
                             text = code,
                             modifier = Modifier
-                                .width(IntrinsicSize.Max)
                                 .background(Color(0xff303030), shape = RoundedCornerShape(8.dp))
                                 .padding(16.dp),
                             color = Color.White,

@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
+import com.androiddevelopersguide.ui.components.Section
 import com.androiddevelopersguide.ui.screens.androidfundamentals.AndroidFundamentalsScreen
 
 @Composable
@@ -22,8 +23,24 @@ fun TempScreen(
             )
         },
     ) {
-
+        Temp()
     }
+}
+
+@Composable
+fun Temp() {
+    Section(
+        title = "",
+        description = """
+            
+        """.trimIndent(),
+        demo = {
+
+        },
+        code = """
+            
+        """.trimIndent()
+    )
 }
 
 @Preview

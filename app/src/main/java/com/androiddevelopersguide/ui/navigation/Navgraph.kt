@@ -36,7 +36,7 @@ import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipul
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.dimensionsandconstraints.DimensionsAndConstraintsScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.effects.EffectsScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.form.FormScreen
-import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.hyperlink.HyperlinkScreen
+import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.webandapps.WebAndAppsScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.iconsandimages.IconsAndImagesScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.interactivebehaviours.InteractiveBehavioursScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.layout.LayoutScreen
@@ -92,7 +92,7 @@ fun NavGraph(
                 composable(NavRouter.JetpackComposeUiManipulationTextScreen.route) { TextScreen(navController = navController) }
                 composable(NavRouter.JetpackComposeUiManipulationBordersScreen.route) { BordersScreen(navController = navController) }
                 composable(NavRouter.JetpackComposeUiManipulationIconsAndImagesScreen.route) { IconsAndImagesScreen(navController = navController) }
-                composable(NavRouter.JetpackComposeUiManipulationHyperlinkScreen.route) { HyperlinkScreen(navController = navController) }
+                composable(NavRouter.JetpackComposeUiManipulationHyperlinkScreen.route) { WebAndAppsScreen(navController = navController) }
                 composable(NavRouter.JetpackComposeUiManipulationFormScreen.route) { FormScreen(navController = navController) }
                 composable(NavRouter.JetpackComposeUiManipulationEffectsScreen.route) { EffectsScreen(navController = navController) }
                 composable(NavRouter.JetpackComposeUiManipulationPositioningScreen.route) { PositioningScreen(navController = navController) }

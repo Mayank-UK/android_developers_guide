@@ -19,7 +19,7 @@ class UiManipulationViewModel @Inject constructor(
         LinkData(title = "Text", routePath = NavRouter.JetpackComposeUiManipulationTextScreen.route),
         LinkData(title = "Border", routePath = NavRouter.JetpackComposeUiManipulationBordersScreen.route),
         LinkData(title = "Icons & images", routePath = NavRouter.JetpackComposeUiManipulationIconsAndImagesScreen.route),
-        LinkData(title = "Hyperlink", routePath = NavRouter.JetpackComposeUiManipulationHyperlinkScreen.route),
+        LinkData(title = "Web & apps", routePath = NavRouter.JetpackComposeUiManipulationHyperlinkScreen.route),
         LinkData(title = "Form", routePath = NavRouter.JetpackComposeUiManipulationFormScreen.route),
         LinkData(title = "Effects", routePath = NavRouter.JetpackComposeUiManipulationEffectsScreen.route),
         LinkData(title = "Positioning", routePath = NavRouter.JetpackComposeUiManipulationPositioningScreen.route),
