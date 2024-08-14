@@ -8,7 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.Links
 import com.androiddevelopersguide.ui.components.PageScaffold
-import com.androiddevelopersguide.ui.temp.TempScreen
 
 @Composable
 fun JetpackComposeScreen(
