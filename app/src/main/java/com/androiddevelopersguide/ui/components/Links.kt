@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.androiddevelopersguide.domain.models.LinkData
+import com.androiddevelopersguide.ui.theme.Sizes
 
 @Composable
 fun Links(
@@ -23,19 +25,20 @@ fun Links(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 32.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(horizontal = Sizes.md, vertical = Sizes.lg),
+        verticalArrangement = Arrangement.spacedBy(Sizes.md)
     ) {
         links.forEach { link ->
             Text(
                 text = link.title,
+                color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(Color(0xFF007aff))
+                    .clip(MaterialTheme.shapes.medium)
+                    .background(MaterialTheme.colorScheme.primary)
                     .fillMaxWidth()
                     .clickable(onClick = { navController.navigate(link.routePath) })
-                    .padding(16.dp),
-                color = Color.White,
+                    .padding(Sizes.md),
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }

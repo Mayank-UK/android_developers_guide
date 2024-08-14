@@ -27,23 +27,9 @@ fun PageScaffold(
         ) {
             ResponsiveLayout(
                 mobileUI = { mobileUI() },
-                tabletUI = {
-                    if (tabletUI != null) {
-                        tabletUI()
-                    } else {
-                        mobileUI()
-                    }
-                },
-                desktopUI = {
-                    if (desktopUI != null) {
-                        desktopUI()
-                    } else {
-                        mobileUI()
-                    }
-                }
+                tabletUI = { (tabletUI ?: mobileUI)() },
+                desktopUI = { (desktopUI ?: mobileUI)() }
             )
         }
-
-
     }
 }

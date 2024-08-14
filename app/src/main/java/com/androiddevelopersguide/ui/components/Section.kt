@@ -5,15 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -25,9 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.androiddevelopersguide.ui.theme.Sizes
 
 @Composable
 fun Section(
@@ -38,38 +36,31 @@ fun Section(
 ) {
     var isExpanded: Boolean by remember { mutableStateOf(false) }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(Sizes.md))
     Column(
         Modifier
             .fillMaxWidth()
             .background(color = Color(0xFFf2f2f2))
-            .padding(16.dp)
+            .padding(Sizes.md)
     ) {
         Text(
             text = title,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
-            )
+            style = MaterialTheme.typography.titleLarge
         )
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(Sizes.sm))
         if(description != null) {
             Text(
                 description,
-                style = TextStyle(
-                    fontSize = 15.sp,
-                    lineHeight = 22.sp,
-                    letterSpacing = 1.1.sp
-                )
+                style = MaterialTheme.typography.bodyMedium
             )
         }
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(Sizes.sm))
         if (demo != null) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color(0xffdadada))
-                    .padding(16.dp)
+                    .padding(Sizes.md)
             ) {
                 demo?.invoke()
             }
@@ -82,21 +73,22 @@ fun Section(
             ) {
                 Text(
                     if (isExpanded) "Hide code" else "Show code",
-                    color = Color.Blue
+                    color = Color.Blue,
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
             AnimatedVisibility(visible = isExpanded) {
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(Sizes.sm)
                 ) {
                     item {
                         Text(
                             text = code,
                             modifier = Modifier
-                                .background(Color(0xff303030), shape = RoundedCornerShape(8.dp))
-                                .padding(16.dp),
+                                .background(Color(0xff303030), shape = MaterialTheme.shapes.large)
+                                .padding(Sizes.md),
                             color = Color.White,
                             style = TextStyle(
                                 fontSize = 14.sp,
