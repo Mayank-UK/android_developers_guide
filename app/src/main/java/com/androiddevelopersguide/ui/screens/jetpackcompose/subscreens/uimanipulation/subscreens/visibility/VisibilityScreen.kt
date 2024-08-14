@@ -1,7 +1,6 @@
 package com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uimanipulation.subscreens.visibility
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +24,6 @@ import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
-import com.androiddevelopersguide.ui.temp.TempScreen
 
 @Composable
 fun VisibilityScreen(
@@ -39,9 +37,10 @@ fun VisibilityScreen(
                 title = "Visibility",
             )
         },
-    ) {
-        Visibility()
-    }
+        mobileUI = {
+            Visibility()
+        }
+    )
 }
 
 @Composable

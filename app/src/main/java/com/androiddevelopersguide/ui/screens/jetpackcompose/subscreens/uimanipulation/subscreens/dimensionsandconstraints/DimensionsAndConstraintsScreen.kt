@@ -36,14 +36,15 @@ fun DimensionsAndConstraintsScreen(
                 title = "Dimensions & constraints",
             )
         },
-    ) {
-        FixedDimensions()
-        FixedMinimumDimensions()
-        FixedMaximumDimensions()
-        FillMaximumDimensions()
-        PercentageOfParentDimensions()
-        PercentageOfScreenDimensions()
-    }
+        mobileUI = {
+            FixedDimensions()
+            FixedMinimumDimensions()
+            FixedMaximumDimensions()
+            FillMaximumDimensions()
+            PercentageOfParentDimensions()
+            PercentageOfScreenDimensions()
+        }
+    )
 }
 
 @Composable

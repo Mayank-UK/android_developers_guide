@@ -20,9 +20,10 @@ fun BroadcastReceiverLifecycleScreen(
                 title = "Broadcast receiver lifecycle",
             )
         },
-    ) {
+        mobileUI = {
 
-    }
+        }
+    )
 }
 
 @Preview

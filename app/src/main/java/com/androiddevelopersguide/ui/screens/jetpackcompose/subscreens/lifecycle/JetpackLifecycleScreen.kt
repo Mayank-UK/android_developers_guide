@@ -38,12 +38,13 @@ fun JetpackLifecycleScreen(
                 title = "Lifecycle",
             )
         },
-    ) {
-        Basics()
-        LaunchEffectFun()
-        DisposableEffectFun()
-        SideEffectFun()
-    }
+        mobileUI = {
+            Basics()
+            LaunchEffectFun()
+            DisposableEffectFun()
+            SideEffectFun()
+        }
+    )
 }
 
 @Composable

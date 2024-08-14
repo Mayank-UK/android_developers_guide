@@ -40,6 +40,7 @@ sealed class NavRouter(
         object JetpackComposeStateManagementScreen : NavRouter("jetpack_compose_state_management")
         object JetpackComposeUiElementsCatalogScreen : NavRouter("jetpack_compose_ui_elements_catalog")
         object JetpackComposeSupportingClassesAndEnumsScreen : NavRouter("jetpack_compose_supporting_classes_and_enums")
+        object JetpackComposeDesignSystemScreen : NavRouter("jetpack_compose_design_system")
         object JetpackComposeNativeFeaturesScreen : NavRouter("jetpack_compose_native_features")
         object JetpackComposeResponsiveDesignScreen : NavRouter("jetpack_compose_responsive_design")
         object JetpackComposeDebuggingScreen : NavRouter("jetpack_compose_debugging")

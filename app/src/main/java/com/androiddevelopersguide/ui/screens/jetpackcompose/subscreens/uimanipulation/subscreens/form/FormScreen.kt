@@ -64,9 +64,10 @@ fun FormScreen(
                 title = "Form",
             )
         },
-    ) {
-        FormHandling()
-    }
+        mobileUI = {
+            FormHandling()
+        }
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

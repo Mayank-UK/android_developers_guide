@@ -31,9 +31,10 @@ fun PositioningScreen(
                 title = "Positioning",
             )
         },
-    ) {
-        Positioning()
-    }
+        mobileUI = {
+            Positioning()
+        }
+    )
 }
 
 @Composable

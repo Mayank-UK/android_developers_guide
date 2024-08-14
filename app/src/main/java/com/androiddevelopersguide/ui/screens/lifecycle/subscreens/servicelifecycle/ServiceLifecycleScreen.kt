@@ -7,7 +7,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
-import com.androiddevelopersguide.ui.screens.lifecycle.LifecycleScreen
 
 @Composable
 fun ServiceLifecycleScreen(
@@ -21,9 +20,10 @@ fun ServiceLifecycleScreen(
                 title = "Service lifecycle",
             )
         },
-    ) {
+        mobileUI = {
 
-    }
+        }
+    )
 }
 
 @Preview

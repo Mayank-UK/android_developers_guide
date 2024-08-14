@@ -21,12 +21,13 @@ fun OtherBasicsScreen(
                 title = "Other basics",
             )
         },
-    ) {
-        Links(
-            links = viewModel.links,
-            navController = navController
-        )
-    }
+        mobileUI = {
+            Links(
+                links = viewModel.links,
+                navController = navController
+            )
+        }
+    )
 }
 
 @Preview

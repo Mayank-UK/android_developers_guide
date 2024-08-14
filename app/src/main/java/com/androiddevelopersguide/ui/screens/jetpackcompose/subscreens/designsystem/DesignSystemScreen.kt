@@ -1,4 +1,4 @@
-package com.androiddevelopersguide.ui.temp
+package com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.designsystem
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -8,23 +8,23 @@ import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
-import com.androiddevelopersguide.ui.screens.androidfundamentals.AndroidFundamentalsScreen
 
 @Composable
-fun TempScreen(
+fun DesignSystemScreen(
     navController: NavController,
-    viewModel: TempViewModel = hiltViewModel(),
+    viewModel: DesignSystemViewModel = hiltViewModel(),
 ) {
     PageScaffold(
         topBar = {
             AppBar(
                 navController = navController,
-                title = "Temp Screen",
+                title = "Design system",
             )
         },
-    ) {
-        Temp()
-    }
+        mobileUI = {
+            Temp()
+        }
+    )
 }
 
 @Composable
@@ -46,5 +46,5 @@ fun Temp() {
 @Preview
 @Composable
 fun TempScreenPreview() {
-    TempScreen(navController = rememberNavController())
+    DesignSystemScreen(navController = rememberNavController())
 }

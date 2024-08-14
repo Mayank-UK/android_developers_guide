@@ -21,12 +21,13 @@ fun DependencyManagementScreen(
                 title = "Build tools & dependencies",
             )
         },
-    ) {
-        Gradle()
-        Dependencies()
-        AndroidX()
-        Repositories()
-    }
+        mobileUI = {
+            Gradle()
+            Dependencies()
+            AndroidX()
+            Repositories()
+        }
+    )
 }
 
 @Composable

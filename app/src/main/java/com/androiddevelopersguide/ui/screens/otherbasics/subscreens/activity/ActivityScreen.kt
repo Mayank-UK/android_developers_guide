@@ -20,9 +20,10 @@ fun ActivityScreen(
                 title = "Activity",
             )
         },
-    ) {
+        mobileUI = {
 
-    }
+        }
+    )
 }
 
 @Preview

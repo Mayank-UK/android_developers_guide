@@ -34,10 +34,11 @@ fun EffectsScreen(
                 title = "Effects",
             )
         },
-    ) {
-        Shadow()
-        Opacity()
-    }
+        mobileUI = {
+            Shadow()
+            Opacity()
+        }
+    )
 }
 
 @Composable

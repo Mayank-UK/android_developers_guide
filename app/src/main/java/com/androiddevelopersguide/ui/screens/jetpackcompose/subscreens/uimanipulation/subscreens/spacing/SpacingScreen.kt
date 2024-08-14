@@ -31,11 +31,12 @@ fun SpacingScreen(
                 title = "Spacing",
             )
         },
-    ) {
-        Padding()
-        Margin()
-        NormalSpacing()
-    }
+        mobileUI = {
+            Padding()
+            Margin()
+            NormalSpacing()
+        }
+    )
 }
 
 @Composable

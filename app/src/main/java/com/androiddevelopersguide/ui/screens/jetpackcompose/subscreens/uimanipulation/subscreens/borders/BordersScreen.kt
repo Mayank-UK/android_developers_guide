@@ -30,10 +30,11 @@ fun BordersScreen(
                 title = "Borders",
             )
         },
-    ) {
-        Border()
-        Outline()
-    }
+        mobileUI = {
+            Border()
+            Outline()
+        }
+    )
 }
 
 @Composable

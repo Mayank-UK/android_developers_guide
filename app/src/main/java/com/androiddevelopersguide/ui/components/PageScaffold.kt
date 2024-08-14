@@ -1,6 +1,5 @@
 package com.androiddevelopersguide.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,12 +8,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun PageScaffold(
     topBar: @Composable () -> Unit,
-    content: @Composable () -> Unit,
+    mobileUI: @Composable () -> Unit,
+    tabletUI: (@Composable () -> Unit)? = null,
+    desktopUI: (@Composable () -> Unit)? = null,
 ) {
     Scaffold(
         topBar = topBar,
@@ -25,7 +25,25 @@ fun PageScaffold(
                 .padding(padding)
                 .verticalScroll(rememberScrollState()),
         ) {
-            content()
+            ResponsiveLayout(
+                mobileUI = { mobileUI() },
+                tabletUI = {
+                    if (tabletUI != null) {
+                        tabletUI()
+                    } else {
+                        mobileUI()
+                    }
+                },
+                desktopUI = {
+                    if (desktopUI != null) {
+                        desktopUI()
+                    } else {
+                        mobileUI()
+                    }
+                }
+            )
         }
+
+
     }
 }

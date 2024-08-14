@@ -20,9 +20,10 @@ fun BroadcastReceiverScreen(
                 title = "Broadcast receiver",
             )
         },
-    ) {
+        mobileUI = {
 
-    }
+        }
+    )
 }
 
 @Preview

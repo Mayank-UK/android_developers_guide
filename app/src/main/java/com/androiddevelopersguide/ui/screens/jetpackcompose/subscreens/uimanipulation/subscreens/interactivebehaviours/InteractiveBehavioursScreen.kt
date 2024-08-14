@@ -53,15 +53,16 @@ fun InteractiveBehavioursScreen(
                 title = "Interactive behaviours",
             )
         },
-    ) {
-        Tap()
-        LongPress()
-        Drag()
-        Swipe()
-        PinchZoom()
-        Rotate()
-        Fling()
-    }
+        mobileUI = {
+            Tap()
+            LongPress()
+            Drag()
+            Swipe()
+            PinchZoom()
+            Rotate()
+            Fling()
+        }
+    )
 }
 
 @Composable

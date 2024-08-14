@@ -21,12 +21,13 @@ fun HomeScreen(
                 title = "Android Developer's Guide",
             )
         },
-    ) {
-        Links(
-            links = viewModel.links,
-            navController = navController
-        )
-    }
+        mobileUI = {
+            Links(
+                links = viewModel.links,
+                navController = navController
+            )
+        }
+    )
 }
 
 @Preview

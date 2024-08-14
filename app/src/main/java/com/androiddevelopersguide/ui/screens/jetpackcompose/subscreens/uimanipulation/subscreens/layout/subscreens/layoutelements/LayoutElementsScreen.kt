@@ -41,16 +41,17 @@ fun LayoutElementsScreen(
                 title = "Layout elements",
             )
         },
-    ) {
-        BoxElement()
-        ColumnElement()
-        LazyColumnElement()
-        RowElement()
-        LazyRowElement()
-        ConstraintLayoutElement()
-        LazyVerticalGridElement()
-        LazyHorizontalGridElement()
-    }
+        {
+            BoxElement()
+            ColumnElement()
+            LazyColumnElement()
+            RowElement()
+            LazyRowElement()
+            ConstraintLayoutElement()
+            LazyVerticalGridElement()
+            LazyHorizontalGridElement()
+        }
+    )
 }
 
 @Composable

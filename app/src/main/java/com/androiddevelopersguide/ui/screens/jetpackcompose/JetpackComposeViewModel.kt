@@ -17,6 +17,7 @@ class JetpackComposeViewModel @Inject constructor(
         LinkData(title = "State management", routePath = NavRouter.JetpackComposeStateManagementScreen.route),
         LinkData(title = "UI elements catalog", routePath = NavRouter.JetpackComposeUiElementsCatalogScreen.route),
         LinkData(title = "Supporting classes & enums", routePath = NavRouter.JetpackComposeSupportingClassesAndEnumsScreen.route),
+        LinkData(title = "Design system", routePath = NavRouter.JetpackComposeDesignSystemScreen.route),
         LinkData(title = "Native features", routePath = NavRouter.JetpackComposeNativeFeaturesScreen.route),
         LinkData(title = "Responsive design", routePath = NavRouter.JetpackComposeResponsiveDesignScreen.route),
         LinkData(title = "Debugging", routePath = NavRouter.JetpackComposeDebuggingScreen.route),

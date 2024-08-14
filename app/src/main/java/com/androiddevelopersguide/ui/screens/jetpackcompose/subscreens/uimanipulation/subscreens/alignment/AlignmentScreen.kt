@@ -37,12 +37,13 @@ fun AlignmentScreen(
                 title = "Alignment",
             )
         },
-    ) {
-        BoxAlignment()
-        ColumnLayoutAlignment()
-        RowLayoutAlignment()
-        TextAlignment()
-    }
+        mobileUI = {
+            BoxAlignment()
+            ColumnLayoutAlignment()
+            RowLayoutAlignment()
+            TextAlignment()
+        }
+    )
 }
 
 @Composable

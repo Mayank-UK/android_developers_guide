@@ -20,9 +20,10 @@ fun ServiceScreen(
                 title = "Service",
             )
         },
-    ) {
+        mobileUI = {
 
-    }
+        }
+    )
 }
 
 @Preview

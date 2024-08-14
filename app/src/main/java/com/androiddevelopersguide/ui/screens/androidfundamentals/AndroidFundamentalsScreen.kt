@@ -21,12 +21,13 @@ fun AndroidFundamentalsScreen(
                 title = "Android fundamentals",
             )
         },
-    ) {
-        GeneralInformation()
-        InstallationAndSetup()
-        Development()
-        GeneralInformation()
-    }
+        mobileUI = {
+            GeneralInformation()
+            InstallationAndSetup()
+            Development()
+            GeneralInformation()
+        }
+    )
 }
 
 @Composable

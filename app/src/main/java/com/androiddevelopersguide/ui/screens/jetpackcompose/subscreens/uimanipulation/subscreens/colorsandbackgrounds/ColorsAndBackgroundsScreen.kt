@@ -15,7 +15,6 @@ import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
-import com.androiddevelopersguide.ui.temp.TempScreen
 
 @Composable
 fun ColorsAndBackgroundsScreen(
@@ -29,10 +28,11 @@ fun ColorsAndBackgroundsScreen(
                 title = "Colors & backgrounds",
             )
         },
-    ) {
-        TextColor()
-        BackgroundColor()
-    }
+        mobileUI = {
+            TextColor()
+            BackgroundColor()
+        }
+    )
 }
 
 @Composable

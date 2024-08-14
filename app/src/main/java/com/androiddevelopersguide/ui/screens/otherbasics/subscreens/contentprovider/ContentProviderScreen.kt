@@ -20,9 +20,10 @@ fun ContentProviderScreen(
                 title = "Content provider",
             )
         },
-    ) {
+        mobileUI = {
 
-    }
+        }
+    )
 }
 
 @Preview

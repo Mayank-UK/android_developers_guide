@@ -20,9 +20,10 @@ fun IntentScreen(
                 title = "Intent",
             )
         },
-    ) {
+        mobileUI = {
 
-    }
+        }
+    )
 }
 
 @Preview

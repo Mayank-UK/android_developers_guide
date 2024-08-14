@@ -21,12 +21,13 @@ fun JetpackComposeScreen(
                 title = "Jetpack compose",
             )
         },
-    ) {
-        Links(
-            links = viewModel.links,
-            navController = navController
-        )
-    }
+        mobileUI = {
+            Links(
+                links = viewModel.links,
+                navController = navController
+            )
+        }
+    )
 }
 
 @Preview

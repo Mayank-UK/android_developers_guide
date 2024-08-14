@@ -21,25 +21,26 @@ fun KotlinFundamentalsScreen(
                 title = "Kotlin fundamentals",
             )
         },
-    ) {
-        Introduction()
-        VariableAndConstants()
-        DataTypes()
-        ExpressionsAndStatements()
-        Comments()
-        Operators()
-        Conditions()
-        Loops()
-        ControlTransfer()
-        OOP()
-        Generics()
-        Annotations()
-        Flow()
-        Coroutines()
-        JavaInteroperability()
-        KotlinAndroidExtensions()
-        StandardLibrary()
-    }
+        mobileUI = {
+            Introduction()
+            VariableAndConstants()
+            DataTypes()
+            ExpressionsAndStatements()
+            Comments()
+            Operators()
+            Conditions()
+            Loops()
+            ControlTransfer()
+            OOP()
+            Generics()
+            Annotations()
+            Flow()
+            Coroutines()
+            JavaInteroperability()
+            KotlinAndroidExtensions()
+            StandardLibrary()
+        }
+    )
 }
 
 @Composable

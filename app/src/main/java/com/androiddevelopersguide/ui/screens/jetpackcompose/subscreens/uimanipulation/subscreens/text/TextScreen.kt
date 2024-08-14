@@ -36,11 +36,12 @@ fun TextScreen(
                 title = "Text",
             )
         },
-    ) {
-        SimpleText()
-        TextStyling()
-        CustomFontFamily()
-    }
+        mobileUI = {
+            SimpleText()
+            TextStyling()
+            CustomFontFamily()
+        }
+    )
 }
 
 @Composable

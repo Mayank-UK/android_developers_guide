@@ -21,12 +21,13 @@ fun UiManipulationScreen(
                 title = "UI manipulation",
             )
         },
-    ) {
-        Links(
-            links = viewModel.links,
-            navController = navController
-        )
-    }
+        mobileUI = {
+            Links(
+                links = viewModel.links,
+                navController = navController
+            )
+        }
+    )
 }
 
 @Preview

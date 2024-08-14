@@ -28,7 +28,6 @@ import com.androiddevelopersguide.R
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
-import com.androiddevelopersguide.ui.temp.TempScreen
 
 @Composable
 fun MediaScreen(
@@ -42,10 +41,11 @@ fun MediaScreen(
                 title = "Media",
             )
         },
-    ) {
-        Audio()
-        Video()
-    }
+        mobileUI = {
+            Audio()
+            Video()
+        }
+    )
 }
 
 @Composable

@@ -36,11 +36,12 @@ fun WebAndAppsScreen(
                 title = "Web",
             )
         },
-    ) {
-        Hyperlink()
-        WebView()
-        AppRedirect()
-    }
+        mobileUI = {
+            Hyperlink()
+            WebView()
+            AppRedirect()
+        }
+    )
 }
 
 @Composable

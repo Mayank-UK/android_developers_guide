@@ -30,10 +30,11 @@ fun IconsAndImagesScreen(
                 title = "Icons & images",
             )
         },
-    ) {
-        CustomIcons()
-        CustomImages()
-    }
+        mobileUI = {
+            CustomIcons()
+            CustomImages()
+        }
+    )
 }
 
 @Composable

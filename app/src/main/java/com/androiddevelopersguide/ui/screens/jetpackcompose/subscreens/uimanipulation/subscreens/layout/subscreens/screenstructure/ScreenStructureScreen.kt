@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
-import com.androiddevelopersguide.ui.temp.TempScreen
+import com.androiddevelopersguide.ui.screens.temp.TempScreen
 
 @Composable
 fun ScreenStructureScreen(
@@ -22,9 +22,10 @@ fun ScreenStructureScreen(
                 title = "Screen structure",
             )
         },
-    ) {
-        SimpleStructure()
-    }
+        {
+            SimpleStructure()
+        }
+    )
 }
 
 @Composable

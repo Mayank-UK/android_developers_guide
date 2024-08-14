@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.Links
 import com.androiddevelopersguide.ui.components.PageScaffold
-import com.androiddevelopersguide.ui.temp.TempScreen
+import com.androiddevelopersguide.ui.screens.temp.TempScreen
 
 @Composable
 fun LayoutScreen(
@@ -22,12 +22,13 @@ fun LayoutScreen(
                 title = "Layout",
             )
         },
-    ) {
-        Links(
-            links = viewModel.links,
-            navController = navController
-        )
-    }
+        {
+            Links(
+                links = viewModel.links,
+                navController = navController
+            )
+        }
+    )
 }
 
 @Preview

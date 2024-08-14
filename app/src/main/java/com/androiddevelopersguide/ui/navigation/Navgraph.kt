@@ -21,6 +21,7 @@ import com.androiddevelopersguide.ui.screens.deployment.subscreens.testdeploymen
 import com.androiddevelopersguide.ui.screens.home.HomeScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.JetpackComposeScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.debugging.DebuggingScreen
+import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.designsystem.DesignSystemScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.lifecycle.JetpackLifecycleScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.nativefeatures.NativeFeaturesScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.navigation.NavigationScreen
@@ -61,7 +62,7 @@ import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.broadcastrec
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.contentprovider.ContentProviderScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.intent.IntentScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.service.ServiceScreen
-import com.androiddevelopersguide.ui.temp.TempScreen
+import com.androiddevelopersguide.ui.screens.temp.TempScreen
 
 @Composable
 fun NavGraph(
@@ -104,6 +105,7 @@ fun NavGraph(
             composable(NavRouter.JetpackComposeStateManagementScreen.route) { StateManagementScreen(navController = navController) }
             composable(NavRouter.JetpackComposeUiElementsCatalogScreen.route) { UiElementsCatalogScreen(navController = navController) }
             composable(NavRouter.JetpackComposeSupportingClassesAndEnumsScreen.route) { SupportingClassesAndEnumsScreen(navController = navController) }
+            composable(NavRouter.JetpackComposeDesignSystemScreen.route) { DesignSystemScreen(navController = navController) }
             composable(NavRouter.JetpackComposeNativeFeaturesScreen.route) { NativeFeaturesScreen(navController = navController) }
             composable(NavRouter.JetpackComposeResponsiveDesignScreen.route) { ResponsiveDesignScreen(navController = navController) }
             composable(NavRouter.JetpackComposeDebuggingScreen.route) { DebuggingScreen(navController = navController) }

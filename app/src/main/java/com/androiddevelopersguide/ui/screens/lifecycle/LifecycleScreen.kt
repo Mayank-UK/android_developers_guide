@@ -8,7 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.components.AppBar
 import com.androiddevelopersguide.ui.components.Links
 import com.androiddevelopersguide.ui.components.PageScaffold
-import com.androiddevelopersguide.ui.temp.TempScreen
 
 @Composable
 fun LifecycleScreen(
@@ -22,12 +21,13 @@ fun LifecycleScreen(
                 title = "Lifecycle",
             )
         },
-    ) {
-        Links(
-            links = viewModel.links,
-            navController = navController
-        )
-    }
+        mobileUI = {
+            Links(
+                links = viewModel.links,
+                navController = navController
+            )
+        }
+    )
 }
 
 @Preview
