@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera.any" />
@@ -30,6 +31,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activities.TempActivity"
+            android:exported="true" />
+        <service
+            android:name=".services.PlaySoundService"
+            android:enabled="true"
+            android:exported="true" />
+        <receiver android:name=".broadcastreceivers.NetworkConnectivityReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name=".contentproviders.userprovider.UserProvider"
+            android:authorities="com.androiddevelopersguide.provider"
+            android:exported="true" />
     </application>
 
 </manifest>
