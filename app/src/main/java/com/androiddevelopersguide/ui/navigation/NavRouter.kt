@@ -46,9 +46,6 @@ sealed class NavRouter(
         object JetpackComposeDebuggingScreen : NavRouter("jetpack_compose_debugging")
         object JetpackComposeTestingScreen : NavRouter("jetpack_compose_testing")
 
-    // xml layout
-    object XmlLayoutScreen : NavRouter("xml_layout")
-
     // other basics
     object OtherBasicsScreen : NavRouter("other_basics")
         object ActivityScreen : NavRouter("activity")

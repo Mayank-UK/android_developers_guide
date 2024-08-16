@@ -10,11 +10,13 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
-    val links = listOf(
+    val links1 = listOf(
         LinkData(title = "Android fundamentals", routePath = NavRouter.AndroidFundamentalsScreen.route),
         LinkData(title = "Kotlin fundamentals", routePath = NavRouter.KotlinFundamentalsScreen.route),
         LinkData(title = "Jetpack compose", routePath = NavRouter.JetpackComposeScreen.route),
-        LinkData(title = "XML layout", routePath = NavRouter.TempScreen.route),
+    )
+
+    val links2 = listOf(
         LinkData(title = "Other basics", routePath = NavRouter.OtherBasicsScreen.route),
         LinkData(title = "Lifecycle", routePath = NavRouter.LifecycleScreen.route),
         LinkData(title = "Dependency management", routePath = NavRouter.DependencyManagementScreen.route),

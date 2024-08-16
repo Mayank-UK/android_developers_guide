@@ -111,9 +111,6 @@ fun NavGraph(
             composable(NavRouter.JetpackComposeDebuggingScreen.route) { DebuggingScreen(navController = navController) }
             composable(NavRouter.JetpackComposeTestingScreen.route) { TestingScreen(navController = navController) }
 
-        // xml layout
-//        composable(NavRouter.XmlLayoutScreen.route) { XmlLayoutScreen(navController = navController) }
-
         // other basics
         composable(NavRouter.OtherBasicsScreen.route) { OtherBasicsScreen(navController = navController) }
             composable(NavRouter.ActivityScreen.route) { ActivityScreen(navController = navController) }
