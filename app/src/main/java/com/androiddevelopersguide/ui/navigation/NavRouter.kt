@@ -62,7 +62,6 @@ sealed class NavRouter(
         object ActivityLifecycleScreen : NavRouter("activity_lifecycle")
         object BroadcastReceiverLifecycleScreen : NavRouter("broadcast_receiver_lifecycle")
         object FragmentLifecycleScreen : NavRouter("fragment_lifecycle")
-        object JetpackComposeLifecycleReferScreen : NavRouter("jetpack_compose_lifecycle_refer")
         object ServiceLifecycleScreen : NavRouter("service_lifecycle")
         object ViewModelLifecycleScreen : NavRouter("view_model_lifecycle")
 
@@ -82,8 +81,6 @@ sealed class NavRouter(
 
     // deployment
     object DeploymentScreen : NavRouter("deployment")
-        object TestDeploymentScreen : NavRouter("test_deployment")
-        object ProdDeploymentScreen : NavRouter("prod_deployment")
 
     // best practices
     object BestPracticesScreen : NavRouter("best_practices")

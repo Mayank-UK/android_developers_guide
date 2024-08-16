@@ -14,9 +14,8 @@ class LifecycleViewModel @Inject constructor(
         LinkData(title = "Activity lifecycle", routePath = NavRouter.ActivityLifecycleScreen.route),
         LinkData(title = "Broadcast receiver lifecycle", routePath = NavRouter.BroadcastReceiverScreen.route),
         LinkData(title = "Fragment lifecycle", routePath = NavRouter.FragmentLifecycleScreen.route),
-        LinkData(title = "Jetpack compose lifecycle", routePath = NavRouter.JetpackComposeLifecycleReferScreen.route),
+        LinkData(title = "Jetpack compose lifecycle", routePath = NavRouter.JetpackComposeLifecycleScreen.route),
         LinkData(title = "Service lifecycle", routePath = NavRouter.ServiceLifecycleScreen.route),
         LinkData(title = "View model lifecycle", routePath = NavRouter.ViewModelLifecycleScreen.route),
     )
-
 }

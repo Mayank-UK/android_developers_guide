@@ -45,7 +45,7 @@ fun Section(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleMedium
         )
         Spacer(Modifier.height(Sizes.sm))
         if(description != null) {

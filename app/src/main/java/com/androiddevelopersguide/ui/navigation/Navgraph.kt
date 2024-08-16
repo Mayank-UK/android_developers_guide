@@ -1,5 +1,7 @@
 package com.androiddevelopersguide.ui.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -16,8 +18,6 @@ import com.androiddevelopersguide.ui.screens.bestpractices.BestPracticesScreen
 import com.androiddevelopersguide.ui.screens.databasehandling.DatabaseHandlingScreen
 import com.androiddevelopersguide.ui.screens.dependencymanagement.DependencyManagementScreen
 import com.androiddevelopersguide.ui.screens.deployment.DeploymentScreen
-import com.androiddevelopersguide.ui.screens.deployment.subscreens.proddeployment.ProdDeploymentScreen
-import com.androiddevelopersguide.ui.screens.deployment.subscreens.testdeployment.TestDeploymentScreen
 import com.androiddevelopersguide.ui.screens.home.HomeScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.JetpackComposeScreen
 import com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.debugging.DebuggingScreen
@@ -53,7 +53,6 @@ import com.androiddevelopersguide.ui.screens.lifecycle.LifecycleScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.activitylifecycle.ActivityLifecycleScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.broadcastreceiverlifecycle.BroadcastReceiverLifecycleScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.fragmentlifecycle.FragmentLifecycleScreen
-import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.jetpackcomposelifecycle.JetpackComposeLifecycleReferScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.servicelifecycle.ServiceLifecycleScreen
 import com.androiddevelopersguide.ui.screens.lifecycle.subscreens.viewmodellifecycle.ViewModelLifecycleScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.OtherBasicsScreen
@@ -64,6 +63,7 @@ import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.intent.Inten
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.service.ServiceScreen
 import com.androiddevelopersguide.ui.screens.temp.TempScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(
     navController: NavHostController,
@@ -127,7 +127,6 @@ fun NavGraph(
             composable(NavRouter.ActivityLifecycleScreen.route) { ActivityLifecycleScreen(navController = navController) }
             composable(NavRouter.BroadcastReceiverLifecycleScreen.route) { BroadcastReceiverLifecycleScreen(navController = navController) }
             composable(NavRouter.FragmentLifecycleScreen.route) { FragmentLifecycleScreen(navController = navController) }
-            composable(NavRouter.JetpackComposeLifecycleReferScreen.route) { JetpackComposeLifecycleReferScreen(navController = navController) }
             composable(NavRouter.ServiceLifecycleScreen.route) { ServiceLifecycleScreen(navController = navController) }
             composable(NavRouter.ViewModelLifecycleScreen.route) { ViewModelLifecycleScreen(navController = navController) }
 
@@ -136,17 +135,13 @@ fun NavGraph(
 
         // api handling
         composable(NavRouter.ApiHandlingScreen.route) { ApiHandlingScreen(navController = navController) }
-            composable(NavRouter.PostsScreen.route) {
-                PostsScreen(onUserClick = { postId ->
-                    navController.navigate("${NavRouter.PostDetailScreen.route}/$postId")
-                })
-            }
+            composable(NavRouter.PostsScreen.route) { PostsScreen(navController = navController) }
             composable(
                 NavRouter.PostDetailScreen.route + NavRouter.PostDetailScreen.objectPath,
                 arguments = listOf(navArgument(NavRouter.PostDetailScreen.objectName) { type = NavType.IntType })
             ) { backStackEntry ->
                 val postId = backStackEntry.arguments?.getInt(NavRouter.PostDetailScreen.objectName) ?: return@composable
-                PostDetailScreen(postId = postId)
+                PostDetailScreen(navController = navController,postId = postId)
             }
 
         // database handling
@@ -157,8 +152,6 @@ fun NavGraph(
 
         // deployment
         composable(NavRouter.DeploymentScreen.route) { DeploymentScreen(navController = navController) }
-            composable(NavRouter.TestDeploymentScreen.route) { TestDeploymentScreen(navController = navController) }
-            composable(NavRouter.ProdDeploymentScreen.route) { ProdDeploymentScreen(navController = navController) }
 
         // best practices
         composable(NavRouter.BestPracticesScreen.route) { BestPracticesScreen(navController = navController) }

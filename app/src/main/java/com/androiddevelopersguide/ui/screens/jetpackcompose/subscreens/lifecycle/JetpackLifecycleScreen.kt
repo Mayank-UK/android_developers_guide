@@ -35,7 +35,7 @@ fun JetpackLifecycleScreen(
         topBar = {
             AppBar(
                 navController = navController,
-                title = "Lifecycle",
+                title = "Jetpack compose lifecycle",
             )
         },
         mobileUI = {
@@ -72,6 +72,8 @@ fun LaunchEffectFun() {
             LaunchedEffect(Unit) {
                 Toast.makeText(context, "LaunchEffect called", Toast.LENGTH_SHORT).show()
             }
+
+            Text("LaunchedEffect is implemented to show toast")
         },
         code = """
             val context = LocalContext.current
@@ -101,8 +103,9 @@ fun DisposableEffectFun() {
                 onDispose {
                     Toast.makeText(context, "DisposableEffect called", Toast.LENGTH_SHORT).show()
                 }
-
             }
+
+            Text("DisposableEffect is implemented to show toast")
         },
         code = """
             val context = LocalContext.current

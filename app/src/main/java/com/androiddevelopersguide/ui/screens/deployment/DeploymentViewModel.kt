@@ -10,8 +10,4 @@ import javax.inject.Inject
 class DeploymentViewModel @Inject constructor(
 ) : ViewModel() {
 
-    val links = listOf(
-        LinkData(title = "Test deployment", routePath = NavRouter.TestDeploymentScreen.route),
-        LinkData(title = "Prod deployment", routePath = NavRouter.ProdDeploymentScreen.route),
-    )
 }

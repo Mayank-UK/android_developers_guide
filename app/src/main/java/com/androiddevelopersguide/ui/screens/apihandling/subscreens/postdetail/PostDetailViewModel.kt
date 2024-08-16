@@ -19,9 +19,14 @@ class PostDetailViewModel @Inject constructor(
     private val _post = MutableStateFlow<Post?>(null)
     val post: StateFlow<Post?> = _post.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
     fun loadPost(id: Int) {
         viewModelScope.launch {
+            _isLoading.value = true
             _post.value = getPostDetailUseCase(id)
+            _isLoading.value = false
         }
     }
 }

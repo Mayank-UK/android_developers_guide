@@ -16,16 +16,23 @@ class PostsViewModel @Inject constructor(
     private val getPostsUseCase: GetPostsUseCase
 ) : ViewModel() {
 
+    // this is a common pattern to have two variables
     private val _posts = MutableStateFlow<List<Post>>(emptyList())
     val posts: StateFlow<List<Post>> = _posts.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    // use init if viewModel do not depend on any parameter from view
     init {
         loadPosts()
     }
 
     private fun loadPosts() {
         viewModelScope.launch {
+            _isLoading.value = true
             _posts.value = getPostsUseCase()
+            _isLoading.value = false
         }
     }
 }

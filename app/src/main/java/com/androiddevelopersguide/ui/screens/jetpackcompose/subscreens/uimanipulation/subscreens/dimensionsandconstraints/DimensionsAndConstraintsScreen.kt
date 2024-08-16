@@ -234,23 +234,19 @@ fun PercentageOfScreenDimensions() {
         """.trimIndent(),
         demo = {
             val configuration = LocalConfiguration.current
-            val screenWidth = configuration.screenWidthDp.dp
-            val screenHeight = configuration.screenHeightDp.dp
 
             Box(
                 modifier = Modifier
-                    .size(screenWidth * 0.25f, screenHeight * 0.25f)
+                    .size(configuration.screenWidthDp.dp * 0.25f, configuration.screenHeightDp.dp * 0.25f)
                     .background(Color.Black)
             )
         },
         code = """
             val configuration = LocalConfiguration.current
-            val screenWidth = configuration.screenWidthDp.dp
-            val screenHeight = configuration.screenHeightDp.dp
 
             Box(
                 modifier = Modifier
-                    .size(screenWidth * 0.25f, screenHeight * 0.25f)
+                    .size(configuration.screenWidthDp.dp * 0.25f, configuration.screenHeightDp.dp * 0.25f)
                     .background(Color.Black)
             )
         """.trimIndent()
