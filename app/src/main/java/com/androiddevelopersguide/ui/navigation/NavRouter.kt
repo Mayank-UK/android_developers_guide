@@ -52,6 +52,8 @@ sealed class NavRouter(
         object IntentScreen : NavRouter("intent")
         object ServiceScreen : NavRouter("service")
         object BroadcastReceiverScreen : NavRouter("broadcast_receiver")
+        object WorkManagerScreen : NavRouter("work_manager")
+        object NotificationScreen : NavRouter("notification_screen")
         object ContentProviderScreen : NavRouter("content_provider")
 
     // lifecycle

@@ -15,6 +15,8 @@ class OtherBasicsViewModel @Inject constructor(
         LinkData(title = "Intent", routePath = NavRouter.IntentScreen.route),
         LinkData(title = "Service", routePath = NavRouter.ServiceScreen.route),
         LinkData(title = "Broadcast receiver", routePath = NavRouter.BroadcastReceiverScreen.route),
+        LinkData(title = "Work manager", routePath = NavRouter.WorkManagerScreen.route),
+        LinkData(title = "Notification", routePath = NavRouter.NotificationScreen.route),
         LinkData(title = "Content provider", routePath = NavRouter.ContentProviderScreen.route),
     )
 }

@@ -60,7 +60,9 @@ import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.activity.Act
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.broadcastreceiver.BroadcastReceiverScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.contentprovider.ContentProviderScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.intent.IntentScreen
+import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.notification.NotificationScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.service.ServiceScreen
+import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.workmanager.WorkManagerScreen
 import com.androiddevelopersguide.ui.screens.temp.TempScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -117,6 +119,8 @@ fun NavGraph(
             composable(NavRouter.IntentScreen.route) { IntentScreen(navController = navController) }
             composable(NavRouter.ServiceScreen.route) { ServiceScreen(navController = navController) }
             composable(NavRouter.BroadcastReceiverScreen.route) { BroadcastReceiverScreen(navController = navController) }
+            composable(NavRouter.WorkManagerScreen.route) { WorkManagerScreen(navController = navController) }
+            composable(NavRouter.NotificationScreen.route) { NotificationScreen(navController = navController) }
             composable(NavRouter.ContentProviderScreen.route) { ContentProviderScreen(navController = navController) }
 
         // lifecycle
