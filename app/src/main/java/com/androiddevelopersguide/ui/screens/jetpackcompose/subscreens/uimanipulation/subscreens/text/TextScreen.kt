@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.R
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -30,12 +30,8 @@ fun TextScreen(
     viewModel: TextViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Text",
-            )
-        },
+        navController = navController,
+        title = "Text",
         mobileUI = {
             SimpleText()
             TextStyling()

@@ -20,7 +20,7 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -30,12 +30,8 @@ fun NotificationScreen(
     viewModel: NotificationViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Temp Screen",
-            )
-        },
+        navController = navController,
+        title = "Temp Screen",
         mobileUI = {
             Basics()
         }
@@ -59,6 +55,7 @@ fun Basics() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Text(text = "This seems to be not working, but it's also not throwing any error.")
                 Button(onClick = {
                     showNotification(context = context)
                 }) {

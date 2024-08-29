@@ -22,7 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.services.PlaySoundService
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 import com.androiddevelopersguide.util.isServiceRunning
@@ -33,12 +33,8 @@ fun ServiceScreen(
     viewModel: ServiceViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Service",
-            )
-        },
+        navController = navController,
+        title = "Service",
         mobileUI = {
             Basics()
         }

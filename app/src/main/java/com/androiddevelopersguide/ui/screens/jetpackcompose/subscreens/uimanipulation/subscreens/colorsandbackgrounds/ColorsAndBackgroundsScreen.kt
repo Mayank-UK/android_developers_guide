@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -22,12 +22,8 @@ fun ColorsAndBackgroundsScreen(
     viewModel: ColorsAndBackgroundsViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Colors & backgrounds",
-            )
-        },
+        navController = navController,
+        title = "Colors & backgrounds",
         mobileUI = {
             TextColor()
             BackgroundColor()

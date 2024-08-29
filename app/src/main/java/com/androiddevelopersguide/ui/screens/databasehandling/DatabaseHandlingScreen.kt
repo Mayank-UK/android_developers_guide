@@ -7,7 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 import com.androiddevelopersguide.ui.navigation.NavRouter
@@ -18,12 +18,8 @@ fun DatabaseHandlingScreen(
     viewModel: DatabaseHandlingViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Database handling",
-            )
-        },
+        navController = navController,
+        title = "Database handling",
         mobileUI = {
             Basics(navController = navController)
         }

@@ -43,7 +43,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 import java.time.LocalDate
@@ -58,12 +58,8 @@ fun FormScreen(
     viewModel: FormViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Form",
-            )
-        },
+        navController = navController,
+        title = "Form",
         mobileUI = {
             FormHandling()
         }

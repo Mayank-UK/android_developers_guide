@@ -5,7 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.Links
 import com.androiddevelopersguide.ui.components.PageScaffold
 
@@ -15,12 +15,8 @@ fun LifecycleScreen(
     viewModel: LifecycleViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Lifecycle",
-            )
-        },
+        navController = navController,
+        title = "Lifecycle",
         mobileUI = {
             Links(
                 links = viewModel.links,

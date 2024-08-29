@@ -30,7 +30,7 @@ import android.content.pm.PackageManager
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -41,12 +41,8 @@ fun NativeFeaturesScreen(
     viewModel: NativeFeaturesViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Native features",
-            )
-        },
+        navController = navController,
+        title = "Native features",
         mobileUI = {
             CameraImplementation()
             MicrophoneImplementation()

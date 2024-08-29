@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.domain.models.Post
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 
 @Composable
@@ -44,12 +44,8 @@ fun PostDetailScreen(
     }
 
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Post detail Screen",
-            )
-        },
+        navController = navController,
+        title = "Post detail Screen",
         mobileUI = {
             if (isLoading) {
                 Box(

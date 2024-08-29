@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -35,13 +35,9 @@ fun LayoutElementsScreen(
     viewModel: LayoutElementsViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Layout elements",
-            )
-        },
-        {
+        navController = navController,
+        title = "Layout elements",
+        mobileUI = {
             BoxElement()
             ColumnElement()
             LazyColumnElement()

@@ -5,7 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -15,12 +15,8 @@ fun FragmentLifecycleScreen(
     viewModel: FragmentLifecycleViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Fragment lifecycle",
-            )
-        },
+        navController = navController,
+        title = "Fragment lifecycle",
         mobileUI = {
             Basics()
         }

@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 import kotlinx.coroutines.launch
@@ -47,12 +47,8 @@ fun InteractiveBehavioursScreen(
     viewModel: InteractiveBehavioursViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Interactive behaviours",
-            )
-        },
+        navController = navController,
+        title = "Interactive behaviours",
         mobileUI = {
             Tap()
             LongPress()

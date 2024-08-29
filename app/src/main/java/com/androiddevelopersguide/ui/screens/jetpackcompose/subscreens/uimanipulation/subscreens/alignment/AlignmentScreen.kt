@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -31,12 +31,8 @@ fun AlignmentScreen(
     viewModel: AlignmentViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Alignment",
-            )
-        },
+        navController = navController,
+        title = "Alignment",
         mobileUI = {
             BoxAlignment()
             ColumnLayoutAlignment()

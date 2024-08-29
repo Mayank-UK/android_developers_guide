@@ -26,7 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.domain.models.Post
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.navigation.NavRouter
 
@@ -40,12 +40,8 @@ fun PostsScreen(
     val configuration = LocalConfiguration.current
 
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Posts Screen",
-            )
-        },
+        navController = navController,
+        title = "Posts Screen",
         mobileUI = {
             if (isLoading) {
                 Box(

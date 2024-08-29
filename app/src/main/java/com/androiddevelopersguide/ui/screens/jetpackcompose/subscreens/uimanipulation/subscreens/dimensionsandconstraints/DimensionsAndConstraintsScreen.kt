@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -30,12 +30,8 @@ fun DimensionsAndConstraintsScreen(
     viewModel: DimensionsAndConstraintsViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Dimensions & constraints",
-            )
-        },
+        navController = navController,
+        title = "Dimensions & constraints",
         mobileUI = {
             FixedDimensions()
             FixedMinimumDimensions()

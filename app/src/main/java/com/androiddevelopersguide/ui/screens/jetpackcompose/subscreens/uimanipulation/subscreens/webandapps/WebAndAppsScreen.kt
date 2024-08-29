@@ -13,7 +13,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 import android.webkit.WebView
@@ -30,12 +30,8 @@ fun WebAndAppsScreen(
     viewModel: WebAndAppsViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Web",
-            )
-        },
+        navController = navController,
+        title = "Web",
         mobileUI = {
             Hyperlink()
             WebView()

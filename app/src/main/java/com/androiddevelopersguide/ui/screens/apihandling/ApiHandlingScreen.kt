@@ -7,7 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 import com.androiddevelopersguide.ui.navigation.NavRouter
@@ -18,12 +18,8 @@ fun ApiHandlingScreen(
     viewModel: ApiHandlingViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Api handling",
-            )
-        },
+        navController = navController,
+        title = "Api handling",
         mobileUI = {
             Basics(navController = navController)
         }

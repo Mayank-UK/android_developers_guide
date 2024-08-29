@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.ui.activities.MainActivity
 import com.androiddevelopersguide.ui.activities.TempActivity
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -33,12 +33,8 @@ fun IntentScreen(
     viewModel: IntentViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Intent",
-            )
-        },
+        navController = navController,
+        title = "Intent",
         mobileUI = {
             Basics()
         }

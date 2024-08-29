@@ -26,7 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.androiddevelopersguide.contentproviders.userprovider.UserContract
-import com.androiddevelopersguide.ui.components.AppBar
+
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
@@ -36,12 +36,8 @@ fun ContentProviderScreen(
     viewModel: ContentProviderViewModel = hiltViewModel(),
 ) {
     PageScaffold(
-        topBar = {
-            AppBar(
-                navController = navController,
-                title = "Content provider",
-            )
-        },
+        navController = navController,
+        title = "Content provider",
         mobileUI = {
             Basics()
         }
