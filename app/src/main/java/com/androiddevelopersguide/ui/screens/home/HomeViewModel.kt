@@ -19,6 +19,7 @@ class HomeViewModel @Inject constructor(
     val links2 = listOf(
         LinkData(title = "Other basics", routePath = NavRouter.OtherBasicsScreen.route),
         LinkData(title = "Lifecycle", routePath = NavRouter.LifecycleScreen.route),
+        LinkData(title = "Widgets", routePath = NavRouter.WidgetsScreen.route),
         LinkData(title = "Dependency management", routePath = NavRouter.DependencyManagementScreen.route),
         LinkData(title = "API handling", routePath = NavRouter.ApiHandlingScreen.route),
         LinkData(title = "Database handling", routePath = NavRouter.DatabaseHandlingScreen.route),

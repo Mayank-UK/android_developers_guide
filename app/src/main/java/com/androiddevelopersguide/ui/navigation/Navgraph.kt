@@ -64,6 +64,7 @@ import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.notification
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.service.ServiceScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.workmanager.WorkManagerScreen
 import com.androiddevelopersguide.ui.screens.temp.TempScreen
+import com.androiddevelopersguide.ui.screens.widgets.WidgetsScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -120,7 +121,12 @@ fun NavGraph(
             composable(NavRouter.ServiceScreen.route) { ServiceScreen(navController = navController) }
             composable(NavRouter.BroadcastReceiverScreen.route) { BroadcastReceiverScreen(navController = navController) }
             composable(NavRouter.WorkManagerScreen.route) { WorkManagerScreen(navController = navController) }
-            composable(NavRouter.NotificationScreen.route) { NotificationScreen(navController = navController) }
+            composable(NavRouter.NotificationScreen.route) {
+                // this if condition is added to suppress a warning, it would work even without it
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    NotificationScreen(navController = navController)
+                }
+            }
             composable(NavRouter.ContentProviderScreen.route) { ContentProviderScreen(navController = navController) }
 
         // lifecycle
@@ -130,6 +136,9 @@ fun NavGraph(
             composable(NavRouter.FragmentLifecycleScreen.route) { FragmentLifecycleScreen(navController = navController) }
             composable(NavRouter.ServiceLifecycleScreen.route) { ServiceLifecycleScreen(navController = navController) }
             composable(NavRouter.ViewModelLifecycleScreen.route) { ViewModelLifecycleScreen(navController = navController) }
+
+        // widgets
+        composable(NavRouter.WidgetsScreen.route) { WidgetsScreen(navController = navController) }
 
         // dependency and management
         composable(NavRouter.DependencyManagementScreen.route) { DependencyManagementScreen(navController = navController) }

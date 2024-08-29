@@ -1,29 +1,35 @@
 package com.androiddevelopersguide.ui.screens.otherbasics.subscreens.notification
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.components.Section
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun NotificationScreen(
     navController: NavController,
@@ -38,6 +44,7 @@ fun NotificationScreen(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun Basics() {
     Section(
@@ -48,54 +55,145 @@ fun Basics() {
         demo = {
             val context = LocalContext.current
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = "This seems to be not working, but it's also not throwing any error.")
-                Button(onClick = {
-                    showNotification(context = context)
-                }) {
-                    Text(text = "Show Notification")
+            var permissionGranted by remember { mutableStateOf(false) }
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                permissionGranted = isGranted
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            fun createNotificationChannel(context: Context) {
+                val name = "My Channel"
+                val descriptionText = "This is my notification channel"
+                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val channel = NotificationChannel("my_channel_id", name, importance).apply {
+                    description = descriptionText
                 }
+                val notificationManager: NotificationManager =
+                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(channel)
+            }
+
+            LaunchedEffect(Unit) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    createNotificationChannel(context)
+                }
+
+                permissionGranted = ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+
+                if (!permissionGranted) {
+                    launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+
+            fun showNotification(context: Context) {
+                if (ActivityCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    val builder = NotificationCompat.Builder(context, "my_channel_id")
+                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setContentTitle("My Notification")
+                        .setContentText("Hello! This is a notification.")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+                    val notificationManager = NotificationManagerCompat.from(context)
+                    notificationManager.notify(1, builder.build())
+                } else {
+                    Log.e("Notification", "Permission not granted to show notifications.")
+                }
+            }
+
+            Button(
+                onClick = {
+                    if (permissionGranted) {
+                        showNotification(context)
+                    } else {
+                        launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                }
+            ) {
+                Text("Show Notification")
             }
         },
         code = """
-            
+            val context = LocalContext.current
+
+            var permissionGranted by remember { mutableStateOf(false) }
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                permissionGranted = isGranted
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            fun createNotificationChannel(context: Context) {
+                val name = "My Channel"
+                val descriptionText = "This is my notification channel"
+                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val channel = NotificationChannel("my_channel_id", name, importance).apply {
+                    description = descriptionText
+                }
+                val notificationManager: NotificationManager =
+                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(channel)
+            }
+
+            LaunchedEffect(Unit) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    createNotificationChannel(context)
+                }
+
+                permissionGranted = ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+
+                if (!permissionGranted) {
+                    launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+
+            fun showNotification(context: Context) {
+                if (ActivityCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    val builder = NotificationCompat.Builder(context, "my_channel_id")
+                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setContentTitle("My Notification")
+                        .setContentText("Hello! This is a notification.")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+                    val notificationManager = NotificationManagerCompat.from(context)
+                    notificationManager.notify(1, builder.build())
+                } else {
+                    Log.e("Notification", "Permission not granted to show notifications.")
+                }
+            }
+
+            Button(
+                onClick = {
+                    if (permissionGranted) {
+                        showNotification(context)
+                    } else {
+                        launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                }
+            ) {
+                Text("Show Notification")
+            }
         """.trimIndent()
     )
 }
 
-fun showNotification(context: Context) {
-    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-    // Create a notification channel (for Android Oreo and later)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channelId = "my_channel_id"
-        val channelName = "My Channel"
-        val channelDescription = "Channel for general notifications"
-
-        val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT).apply {
-            description = channelDescription
-        }
-        notificationManager.createNotificationChannel(channel)
-    }
-
-    // Create a notification
-    val notification = NotificationCompat.Builder(context, "my_channel_id")
-        .setSmallIcon(android.R.drawable.ic_dialog_info)
-        .setContentTitle("Notification Title")
-        .setContentText("Notification message")
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .build()
-
-    // Show the notification
-    notificationManager.notify(12345, notification)
-}
-
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Preview
 @Composable
 fun NotificationScreenPreview() {

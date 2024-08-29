@@ -55,10 +55,25 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".widgetproviders.ExampleWidgetProvider"
+            android:exported="true"
+            android:label="Example Widget"
+            android:icon="@mipmap/ic_launcher">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/example_widget_info" />
+        </receiver>
+
         <provider
             android:name=".contentproviders.userprovider.UserProvider"
             android:authorities="com.androiddevelopersguide.provider"
             android:exported="true" />
     </application>
+
 
 </manifest>

@@ -64,6 +64,9 @@ sealed class NavRouter(
         object ServiceLifecycleScreen : NavRouter("service_lifecycle")
         object ViewModelLifecycleScreen : NavRouter("view_model_lifecycle")
 
+    // widgets
+    object WidgetsScreen : NavRouter("widgets")
+
     // dependency and management
     object DependencyManagementScreen : NavRouter("dependency_management")
 
