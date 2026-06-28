@@ -36,6 +36,7 @@ fun PostDetailScreen(
 ) {
     val post by viewModel.post.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
     val configuration = LocalConfiguration.current
 
     // use LaunchedEffect if viewModel is already initialized and parameter is passed later, instead of init in viewModel
@@ -47,21 +48,35 @@ fun PostDetailScreen(
         navController = navController,
         title = "Post detail Screen",
         mobileUI = {
-            if (isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .height(configuration.screenHeightDp.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+            when {
+                isLoading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .height(configuration.screenHeightDp.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
-            } else {
-                post?.let { PostDetail(post = it) }
+                error != null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .height(configuration.screenHeightDp.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = error ?: "Unknown error", color = Color.Red)
+                    }
+                }
+                post != null -> {
+                    PostDetail(post = post!!)
+                }
             }
         }
     )
 }
+
 
 @Composable
 fun PostDetail(post : Post) {

@@ -37,28 +37,42 @@ fun PostsScreen(
 ) {
     val posts by viewModel.posts.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
     val configuration = LocalConfiguration.current
 
     PageScaffold(
         navController = navController,
         title = "Posts Screen",
         mobileUI = {
-            if (isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .height(configuration.screenHeightDp.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+            when {
+                isLoading && posts.isEmpty() -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .height(configuration.screenHeightDp.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
-            } else {
-                Posts(posts = posts, navController = navController)
+                error != null && posts.isEmpty() -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .height(configuration.screenHeightDp.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = error ?: "Unknown error", color = Color.Red)
+                    }
+                }
+                else -> {
+                    Posts(posts = posts, navController = navController)
+                }
             }
-
         }
     )
 }
+
 
 @Composable
 fun Posts(posts: List<Post>, navController: NavController) {
