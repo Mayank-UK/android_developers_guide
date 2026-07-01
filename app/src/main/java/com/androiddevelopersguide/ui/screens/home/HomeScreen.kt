@@ -18,6 +18,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import com.androiddevelopersguide.BuildConfig
 import com.androiddevelopersguide.ui.components.Links
 import com.androiddevelopersguide.ui.components.PageScaffold
 import com.androiddevelopersguide.ui.activities.XmlLayoutActivity
@@ -34,6 +38,7 @@ fun HomeScreen(
         navController = navController,
         title = "Android Developer's Guide",
         mobileUI = {
+            EnvironmentBadge()
             Links(
                 links = viewModel.links1,
                 navController = navController
@@ -62,6 +67,30 @@ fun HomeScreen(
             }
         }
     )
+}
+
+@Composable
+fun EnvironmentBadge() {
+    val flavor = BuildConfig.FLAVOR
+    if (flavor != "prod") {
+        val (backgroundColor, textColor, label) = when (flavor) {
+            "dev" -> Triple(Color.Red, Color.White, "DEV - FAKE DATA")
+            "staging" -> Triple(Color(0xFFFFA500), Color.Black, "STAGING")
+            else -> Triple(Color.Gray, Color.White, flavor.uppercase())
+        }
+
+        Text(
+            text = label,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(backgroundColor)
+                .padding(vertical = Sizes.xs),
+            color = textColor,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+    }
 }
 
 @Preview

@@ -42,9 +42,34 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
+    }
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
+            buildConfigField("String", "contentProviderAuthority", "\"com.androiddevelopersguide.provider.dev\"")
+            manifestPlaceholders["contentProviderAuthority"] = "com.androiddevelopersguide.provider.dev"
+        }
+        create("staging") {
+            dimension = "environment"
+            applicationIdSuffix = ".staging"
+            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
+            buildConfigField("String", "contentProviderAuthority", "\"com.androiddevelopersguide.provider.staging\"")
+            manifestPlaceholders["contentProviderAuthority"] = "com.androiddevelopersguide.provider.staging"
+        }
+        create("prod") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
+            buildConfigField("String", "contentProviderAuthority", "\"com.androiddevelopersguide.provider\"")
+            manifestPlaceholders["contentProviderAuthority"] = "com.androiddevelopersguide.provider"
+        }
     }
     packaging {
         resources {
@@ -68,6 +93,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)

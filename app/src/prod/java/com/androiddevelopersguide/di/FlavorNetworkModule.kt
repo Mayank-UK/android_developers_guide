@@ -1,7 +1,7 @@
 package com.androiddevelopersguide.di
 
+import com.androiddevelopersguide.BuildConfig
 import com.androiddevelopersguide.data.remote.ApiService
-import com.androiddevelopersguide.util.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,19 +12,19 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+object FlavorNetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     @Provides
     @Singleton
-    fun providePostApiService(retrofit: Retrofit): ApiService {
+    fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 }

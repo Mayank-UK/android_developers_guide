@@ -3,8 +3,10 @@ package com.androiddevelopersguide.contentproviders.userprovider
 import android.net.Uri
 import android.provider.BaseColumns
 
+import com.androiddevelopersguide.BuildConfig
+
 object UserContract {
-    const val AUTHORITY = "com.androiddevelopersguide.provider"
+    val AUTHORITY = BuildConfig.contentProviderAuthority
     const val PATH_USERS = "users"
     val CONTENT_URI: Uri = Uri.parse("content://$AUTHORITY/$PATH_USERS")
 

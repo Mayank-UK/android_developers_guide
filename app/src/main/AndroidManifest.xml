@@ -71,7 +71,7 @@
 
         <provider
             android:name=".contentproviders.userprovider.UserProvider"
-            android:authorities="com.androiddevelopersguide.provider"
+            android:authorities="${contentProviderAuthority}"
             android:exported="true" />
     </application>
 
