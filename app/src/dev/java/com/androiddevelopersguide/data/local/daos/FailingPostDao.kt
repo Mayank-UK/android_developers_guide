@@ -12,7 +12,7 @@ import com.androiddevelopersguide.data.local.entities.PostEntity
  * the API, which has the OkHttp [com.androiddevelopersguide.data.remote.FailureInjectionInterceptor]),
  * so DB error paths are verified via MockK unit tests, not by wiring this into the app.
  *
- * To use it for a manual check, temporarily wrap the DAO in `FlavorDatabaseModule.providePostDao`:
+ * To use it for a manual check, temporarily wrap the DAO in `DatabaseModule.providePostDao`:
  * ```
  * return FailingPostDao(inner = database.postDao(), scenario = DbScenario.READ_ERROR)
  * ```
