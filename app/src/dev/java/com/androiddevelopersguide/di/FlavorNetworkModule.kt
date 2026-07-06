@@ -1,11 +1,15 @@
 package com.androiddevelopersguide.di
 
+import com.androiddevelopersguide.BuildConfig
 import com.androiddevelopersguide.data.remote.ApiService
-import com.androiddevelopersguide.data.remote.FakeApiService
+import com.androiddevelopersguide.data.remote.FailureInjectionInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -13,15 +17,40 @@ import javax.inject.Singleton
 object FlavorNetworkModule {
 
     /**
-     * The [FakeApiService] scenario is controlled by the constructor default in FakeApiService.kt.
-     * Edit `private val scenario: ApiScenario = ...` THERE to simulate a different API outcome
-     * (success, network error, timeout, server error, invalid JSON). Mirrors the Flutter/iOS fakes.
+     * The dev flavor uses the **real** Retrofit client hitting [BuildConfig.BASE_URL] (same as
+     * prod/staging), with a [FailureInjectionInterceptor] layered in front of it to simulate API
+     * failures on the client side.
+     *
+     * To simulate a different API outcome, edit the `scenario` constructor default in
+     * [FailureInjectionInterceptor] (success / network error / timeout / server error / invalid
+     * JSON). It is provided as a singleton so it can also be toggled at runtime from a debug menu.
      */
     @Provides
     @Singleton
-    fun provideFakeApiService(): FakeApiService = FakeApiService()
+    fun provideFailureInjectionInterceptor(): FailureInjectionInterceptor =
+        FailureInjectionInterceptor()
 
     @Provides
     @Singleton
-    fun provideApiService(fake: FakeApiService): ApiService = fake
+    fun provideOkHttpClient(
+        failureInterceptor: FailureInjectionInterceptor
+    ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(failureInterceptor)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
 }

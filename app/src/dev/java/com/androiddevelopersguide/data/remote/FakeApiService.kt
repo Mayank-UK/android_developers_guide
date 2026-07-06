@@ -7,17 +7,10 @@ import com.androiddevelopersguide.core.scenario.ApiScenario
 import com.androiddevelopersguide.data.remote.dtos.PostDto
 import kotlinx.coroutines.delay
 
-/**
- * FakeApiService has two objectives:
- *   - Allow development to continue without a backend.
- *   - Simulate different failure modes so error-handling paths can be exercised.
- *
- * Change [scenario] (passed in at construction from FlavorNetworkModule) to pick which path the
- * next call takes — exactly like the Flutter and iOS guide projects' fakes.
- */
+// Use FakeApiService when the backend is not developed yet
 class FakeApiService(
-    private val scenario: ApiScenario = ApiScenario.SUCCESS
-//        private val scenario: ApiScenario = ApiScenario.NETWORK_ERROR
+//    private val scenario: ApiScenario = ApiScenario.SUCCESS
+        private val scenario: ApiScenario = ApiScenario.NETWORK_ERROR
 ) : ApiService {
 
     private val fakePosts = listOf(
