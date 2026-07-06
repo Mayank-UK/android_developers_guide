@@ -5,14 +5,21 @@ import com.androiddevelopersguide.core.scenario.DbScenario
 import com.androiddevelopersguide.data.local.entities.PostEntity
 
 /**
- * Dev-only decorator that wraps the **real** Room [PostDao] and injects failures according to
- * [scenario]. Storage is fully delegated to [inner] via Kotlin interface delegation (`by inner`),
- * so this class contains *no* storage logic — only failure simulation. New methods added to
- * [PostDao] are auto-delegated with zero maintenance here; you only override the read/write
- * entry points where failure injection applies.
+ * REFERENCE / SHOWCASE — not wired into the dev DI.
  *
- * Edit [scenario] below to pick a path, exactly like the iOS/Flutter guide fakes.
+ * A one-off decorator used to manually verify the Post DB error-handling paths. It is intentionally
+ * NOT maintained per feature: real SQLite/Room has no chokepoint for clean failure injection (unlike
+ * the API, which has the OkHttp [com.androiddevelopersguide.data.remote.FailureInjectionInterceptor]),
+ * so DB error paths are verified via MockK unit tests, not by wiring this into the app.
+ *
+ * To use it for a manual check, temporarily wrap the DAO in `FlavorDatabaseModule.providePostDao`:
+ * ```
+ * return FailingPostDao(inner = database.postDao(), scenario = DbScenario.READ_ERROR)
+ * ```
+ * then flip the `scenario` back to SUCCESS (or unwire it) when done.
  */
+// Just make it for a single feature to test the DB functionality at least once, do not maintain it for all the features
+
 class FailingPostDao(
     private val inner: PostDao,
     private val scenario: DbScenario = DbScenario.SUCCESS

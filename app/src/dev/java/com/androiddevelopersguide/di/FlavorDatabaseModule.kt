@@ -3,7 +3,6 @@ package com.androiddevelopersguide.di
 import android.content.Context
 import androidx.room.Room
 import com.androiddevelopersguide.data.local.AppDatabase
-import com.androiddevelopersguide.data.local.daos.FailingPostDao
 import com.androiddevelopersguide.data.local.daos.PostDao
 import com.androiddevelopersguide.util.APP_DATABASE_NAME
 import dagger.Module
@@ -19,12 +18,10 @@ object FlavorDatabaseModule {
 
     /**
      * The dev flavor uses the **real** Room database (same as prod/staging), so storage behaves
-     * exactly like production and survives restarts. On top of it we layer [FailingPostDao], a
-     * thin decorator that injects DB failures for exercising the error-handling paths.
-     *
-     * To simulate a different DB outcome, edit the `scenario` constructor default in
-     * [FailingPostDao] (success / empty / read error / write error). Mirrors the iOS/Flutter
-     * guide fakes.
+     * exactly like production and survives restarts. The DAO is provided plainly, with no
+     * failure-injection wrapper — DB error paths are verified via MockK unit tests, not in the
+     * app wiring. See [com.androiddevelopersguide.data.local.daos.FailingPostDao] for a reference
+     * decorator you can swap in temporarily for manual checks.
      */
     @Provides
     @Singleton
@@ -38,9 +35,5 @@ object FlavorDatabaseModule {
 
     @Provides
     @Singleton
-    fun providePostDao(database: AppDatabase): PostDao {
-        // `scenario` is intentionally not passed here so the constructor default in
-        // FailingPostDao is the single place you edit to switch DB scenarios.
-        return FailingPostDao(inner = database.postDao())
-    }
+    fun providePostDao(database: AppDatabase): PostDao = database.postDao()
 }

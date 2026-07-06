@@ -8,6 +8,7 @@ import com.androiddevelopersguide.data.remote.dtos.PostDto
 import kotlinx.coroutines.delay
 
 // Use FakeApiService when the backend is not developed yet
+
 class FakeApiService(
 //    private val scenario: ApiScenario = ApiScenario.SUCCESS
         private val scenario: ApiScenario = ApiScenario.NETWORK_ERROR
