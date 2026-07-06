@@ -11,9 +11,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object FlavorNetworkModule {
+
+    /**
+     * The [FakeApiService] scenario is controlled by the constructor default in FakeApiService.kt.
+     * Edit `private val scenario: ApiScenario = ...` THERE to simulate a different API outcome
+     * (success, network error, timeout, server error, invalid JSON). Mirrors the Flutter/iOS fakes.
+     */
     @Provides
     @Singleton
-    fun provideApiService(): ApiService {
-        return FakeApiService()
-    }
+    fun provideFakeApiService(): FakeApiService = FakeApiService()
+
+    @Provides
+    @Singleton
+    fun provideApiService(fake: FakeApiService): ApiService = fake
 }

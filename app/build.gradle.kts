@@ -60,6 +60,7 @@ android {
         create("staging") {
             dimension = "environment"
             applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
             buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
             buildConfigField("String", "contentProviderAuthority", "\"com.androiddevelopersguide.provider.staging\"")
             manifestPlaceholders["contentProviderAuthority"] = "com.androiddevelopersguide.provider.staging"
@@ -87,6 +88,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)

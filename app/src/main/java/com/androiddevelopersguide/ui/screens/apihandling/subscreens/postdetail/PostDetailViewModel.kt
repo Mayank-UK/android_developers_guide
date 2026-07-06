@@ -2,7 +2,7 @@ package com.androiddevelopersguide.ui.screens.apihandling.subscreens.postdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.androiddevelopersguide.core.Resource
+import com.androiddevelopersguide.core.result.Result
 import com.androiddevelopersguide.domain.models.Post
 import com.androiddevelopersguide.domain.usecases.GetPostDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,16 +31,13 @@ class PostDetailViewModel @Inject constructor(
             _isLoading.value = true
             _error.value = null
             when (val result = getPostDetailUseCase(id)) {
-                is Resource.Success -> {
-                    _post.value = result.data
+                is Result.Success -> {
+                    _post.value = result.value
                     _isLoading.value = false
                 }
-                is Resource.Error -> {
-                    _error.value = result.message
+                is Result.Failed -> {
+                    _error.value = result.failure.message
                     _isLoading.value = false
-                }
-                is Resource.Loading -> {
-                    _isLoading.value = true
                 }
             }
         }

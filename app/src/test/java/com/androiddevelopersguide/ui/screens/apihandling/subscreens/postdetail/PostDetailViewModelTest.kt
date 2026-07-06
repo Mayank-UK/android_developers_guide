@@ -1,7 +1,8 @@
 package com.androiddevelopersguide.ui.screens.apihandling.subscreens.postdetail
 
 import app.cash.turbine.test
-import com.androiddevelopersguide.core.Resource
+import com.androiddevelopersguide.core.failures.ServerFailure
+import com.androiddevelopersguide.core.result.Result
 import com.androiddevelopersguide.domain.models.Post
 import com.androiddevelopersguide.domain.usecases.GetPostDetailUseCase
 import io.mockk.coEvery
@@ -37,7 +38,7 @@ class PostDetailViewModelTest {
     @Test
     fun `loadPost should update state on success`() = runTest {
         val post = Post(1, 1, "Title", "Body")
-        coEvery { getPostDetailUseCase(1) } returns Resource.Success(post)
+        coEvery { getPostDetailUseCase(1) } returns Result.Success(post)
 
         viewModel = PostDetailViewModel(getPostDetailUseCase)
         viewModel.loadPost(1)
@@ -45,7 +46,7 @@ class PostDetailViewModelTest {
         viewModel.post.test {
             assertEquals(post, awaitItem())
         }
-        
+
         viewModel.isLoading.test {
             assertEquals(false, awaitItem())
         }
@@ -54,7 +55,7 @@ class PostDetailViewModelTest {
     @Test
     fun `loadPost should update state on error`() = runTest {
         val errorMessage = "Error loading post"
-        coEvery { getPostDetailUseCase(1) } returns Resource.Error(errorMessage)
+        coEvery { getPostDetailUseCase(1) } returns Result.Failed(ServerFailure(errorMessage))
 
         viewModel = PostDetailViewModel(getPostDetailUseCase)
         viewModel.loadPost(1)
@@ -62,7 +63,7 @@ class PostDetailViewModelTest {
         viewModel.error.test {
             assertEquals(errorMessage, awaitItem())
         }
-        
+
         viewModel.isLoading.test {
             assertEquals(false, awaitItem())
         }

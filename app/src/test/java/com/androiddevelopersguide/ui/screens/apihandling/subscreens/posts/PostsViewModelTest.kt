@@ -1,14 +1,14 @@
 package com.androiddevelopersguide.ui.screens.apihandling.subscreens.posts
 
 import app.cash.turbine.test
-import com.androiddevelopersguide.core.Resource
+import com.androiddevelopersguide.core.failures.ServerFailure
+import com.androiddevelopersguide.core.result.Result
 import com.androiddevelopersguide.domain.models.Post
 import com.androiddevelopersguide.domain.usecases.GetPostsUseCase
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -38,36 +38,30 @@ class PostsViewModelTest {
     @Test
     fun `initial state should emit posts on success`() = runTest {
         val posts = listOf(Post(1, 1, "Title", "Body"))
-        every { getPostsUseCase() } returns flowOf(
-            Resource.Loading,
-            Resource.Success(posts)
-        )
+        coEvery { getPostsUseCase() } returns Result.Success(posts)
 
         viewModel = PostsViewModel(getPostsUseCase)
 
         viewModel.posts.test {
             assertEquals(posts, awaitItem())
         }
-        
+
         viewModel.isLoading.test {
             assertEquals(false, awaitItem())
         }
     }
 
     @Test
-    fun `error should emit error message`() = runTest {
-        val errorMessage = "Error message"
-        every { getPostsUseCase() } returns flowOf(
-            Resource.Loading,
-            Resource.Error(errorMessage)
-        )
+    fun `error should emit failure`() = runTest {
+        val failure = ServerFailure("Error message")
+        coEvery { getPostsUseCase() } returns Result.Failed(failure)
 
         viewModel = PostsViewModel(getPostsUseCase)
 
-        viewModel.error.test {
-            assertEquals(errorMessage, awaitItem())
+        viewModel.failure.test {
+            assertEquals(failure, awaitItem())
         }
-        
+
         viewModel.isLoading.test {
             assertEquals(false, awaitItem())
         }
