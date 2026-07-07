@@ -9,7 +9,7 @@ enum class ApiScenario {
     INVALID_JSON
 }
 
-/** Failure modes the [com.androiddevelopersguide.data.local.daos.FakePostDao] can simulate. */
+/** Failure modes the [com.androiddevelopersguide.data.local.daos.FailingPostDao] can simulate. */
 enum class DbScenario {
     SUCCESS,
     EMPTY,

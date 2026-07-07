@@ -1,6 +1,8 @@
 package com.androiddevelopersguide.di
 
 import com.androiddevelopersguide.BuildConfig
+import com.androiddevelopersguide.data.local.AppDatabase
+import com.androiddevelopersguide.data.local.daos.PostDao
 import com.androiddevelopersguide.data.remote.ApiService
 import dagger.Module
 import dagger.Provides
@@ -27,4 +29,8 @@ object FlavorNetworkModule {
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providePostDao(database: AppDatabase): PostDao = database.postDao()
 }

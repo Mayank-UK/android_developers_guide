@@ -16,14 +16,15 @@ import java.net.UnknownHostException
  * network would, so the app's [com.androiddevelopersguide.core.guards.guardedApiCall] maps them
  * exactly as it would in production — no fake service required.
  *
- * Edit [scenario] below to pick a path (success / network error / timeout / server error /
- * invalid JSON). Because it is a `var`, it can also be flipped at runtime from a debug menu.
+ * The scenario is supplied by the dev DI module from
+ * [com.androiddevelopersguide.core.config.DevConfig] (single source of truth), so there is no
+ * constructor default. It is a `var`, so it can also be flipped at runtime from a debug menu.
  *
- * Mirrors the failure simulation the FakeApiService used to do, but against the live API and
+ * Mirrors the failure simulation the FakeApiService does, but against the live API and
  * covering every endpoint automatically with no per-endpoint maintenance.
  */
 class FailureInjectionInterceptor(
-    var scenario: ApiScenario = ApiScenario.SUCCESS
+    var scenario: ApiScenario,
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

@@ -1,8 +1,13 @@
 package com.androiddevelopersguide.di
 
 import com.androiddevelopersguide.BuildConfig
+import com.androiddevelopersguide.core.config.DevConfig
+import com.androiddevelopersguide.data.local.AppDatabase
+import com.androiddevelopersguide.data.local.daos.FailingPostDao
+import com.androiddevelopersguide.data.local.daos.PostDao
 import com.androiddevelopersguide.data.remote.ApiService
 import com.androiddevelopersguide.data.remote.FailureInjectionInterceptor
+import com.androiddevelopersguide.data.remote.FakeApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,14 +26,14 @@ object FlavorNetworkModule {
      * prod/staging), with a [FailureInjectionInterceptor] layered in front of it to simulate API
      * failures on the client side.
      *
-     * To simulate a different API outcome, edit the `scenario` constructor default in
-     * [FailureInjectionInterceptor] (success / network error / timeout / server error / invalid
-     * JSON). It is provided as a singleton so it can also be toggled at runtime from a debug menu.
+     * The scenario comes from [DevConfig] — the single source of truth — and is shared with the
+     * [FakeApiService] path so both simulation surfaces agree. The interceptor is a singleton so
+     * it can also be toggled at runtime from a debug menu.
      */
     @Provides
     @Singleton
     fun provideFailureInjectionInterceptor(): FailureInjectionInterceptor =
-        FailureInjectionInterceptor()
+        FailureInjectionInterceptor(DevConfig.apiScenario)
 
     @Provides
     @Singleton
@@ -48,9 +53,30 @@ object FlavorNetworkModule {
             .build()
     }
 
+    /**
+     * Swaps between the real Retrofit [ApiService] and [FakeApiService] based on [DevConfig].
+     * Retrofit is still built either way (the interceptor chain is harmless when unused).
+     */
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
-    }
+    fun provideApiService(retrofit: Retrofit): ApiService =
+        if (DevConfig.useFakeApi) {
+            FakeApiService(DevConfig.apiScenario)
+        } else {
+            retrofit.create(ApiService::class.java)
+        }
+
+    /**
+     * Swaps between the real Room [PostDao] and the [FailingPostDao] decorator based on
+     * [DevConfig]. (Provided per-flavor — staging/prod return the real DAO — so the dev-only
+     * fake can override without a Hilt duplicate-binding conflict.)
+     */
+    @Provides
+    @Singleton
+    fun providePostDao(database: AppDatabase): PostDao =
+        if (DevConfig.useFakeDatabase) {
+            FailingPostDao(database.postDao(), DevConfig.dbScenario)
+        } else {
+            database.postDao()
+        }
 }

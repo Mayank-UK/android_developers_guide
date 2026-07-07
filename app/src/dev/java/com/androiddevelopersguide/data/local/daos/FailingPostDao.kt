@@ -5,25 +5,20 @@ import com.androiddevelopersguide.core.scenario.DbScenario
 import com.androiddevelopersguide.data.local.entities.PostEntity
 
 /**
- * REFERENCE / SHOWCASE — not wired into the dev DI.
- *
- * A one-off decorator used to manually verify the Post DB error-handling paths. It is intentionally
+ * Dev-only decorator over the real [PostDao] that simulates DB failure paths. It is intentionally
  * NOT maintained per feature: real SQLite/Room has no chokepoint for clean failure injection (unlike
  * the API, which has the OkHttp [com.androiddevelopersguide.data.remote.FailureInjectionInterceptor]),
- * so DB error paths are verified via MockK unit tests, not by wiring this into the app.
+ * so this only wraps the Post feature. DB error paths are additionally verified via MockK unit tests.
  *
- * To use it for a manual check, temporarily wrap the DAO in `DatabaseModule.providePostDao`:
- * ```
- * return FailingPostDao(inner = database.postDao(), scenario = DbScenario.READ_ERROR)
- * ```
- * then flip the `scenario` back to SUCCESS (or unwire it) when done.
+ * Wired into the dev flavor's DI when `DevConfig.useFakeDatabase` is true; the scenario is supplied
+ * by the dev DI module from [com.androiddevelopersguide.core.config.DevConfig] (single source of
+ * truth) — no default here so the value can't drift. Staging/prod never use this class.
  */
 // Just make it for a single feature to test the DB functionality at least once, do not maintain it for all the features
 
 class FailingPostDao(
     private val inner: PostDao,
-    private val scenario: DbScenario = DbScenario.SUCCESS
-//        private val scenario: DbScenario = DbScenario.READ_ERROR
+    private val scenario: DbScenario,
 ) : PostDao by inner {
 
     private fun checkRead() {

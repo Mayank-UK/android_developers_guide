@@ -3,7 +3,6 @@ package com.androiddevelopersguide.di
 import android.content.Context
 import androidx.room.Room
 import com.androiddevelopersguide.data.local.AppDatabase
-import com.androiddevelopersguide.data.local.daos.PostDao
 import com.androiddevelopersguide.util.APP_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -16,9 +15,10 @@ import javax.inject.Singleton
  * Shared database wiring for all flavors (dev / staging / prod). Each flavor uses the same real
  * Room database, so this lives in `main` rather than being duplicated per flavor.
  *
- * DB error-handling paths are verified via MockK unit tests, not in-app wiring — see
- * [com.androiddevelopersguide.data.local.daos.FailingPostDao] for a reference decorator you can
- * swap in temporarily for manual checks.
+ * Only the [AppDatabase] is provided here. The [com.androiddevelopersguide.data.local.daos.PostDao]
+ * binding lives in each flavor's `FlavorNetworkModule`: dev can swap in
+ * [com.androiddevelopersguide.data.local.daos.FailingPostDao] via `DevConfig`, while staging/prod
+ * return the real DAO. DB error-handling paths are additionally verified via MockK unit tests.
  */
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,8 +33,4 @@ object DatabaseModule {
             APP_DATABASE_NAME
         ).build()
     }
-
-    @Provides
-    @Singleton
-    fun providePostDao(database: AppDatabase): PostDao = database.postDao()
 }

@@ -7,11 +7,11 @@ import com.androiddevelopersguide.core.scenario.ApiScenario
 import com.androiddevelopersguide.data.remote.dtos.PostDto
 import kotlinx.coroutines.delay
 
-// Use FakeApiService when the backend is not developed yet
+// Use FakeApiService when the backend is not developed yet. The scenario is supplied by the dev
+// DI module from DevConfig (single source of truth) — no default here so the value can't drift.
 
 class FakeApiService(
-//    private val scenario: ApiScenario = ApiScenario.SUCCESS
-        private val scenario: ApiScenario = ApiScenario.NETWORK_ERROR
+    private val scenario: ApiScenario,
 ) : ApiService {
 
     private val fakePosts = listOf(
