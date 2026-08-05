@@ -57,7 +57,7 @@ fun Basics(viewModel: WorkManagerViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "The counter will increment every 15 minutes, even if the app is closed. There is no error in the console or anywhere, but it don't seem to work.", style = MaterialTheme.typography.bodyLarge)
+                Text(text = "The counter increments roughly every 15 minutes via a periodic WorkManager request, even if the app is closed or the device restarts. Its value is persisted to DataStore, so each run reads the previous count, increments it, and writes it back — surviving across runs and process death.", style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = "Counter: $count", style = MaterialTheme.typography.headlineMedium)
                 Spacer(modifier = Modifier.height(16.dp))

@@ -16,109 +16,93 @@ fun WidgetsScreen(
 ) {
     PageScaffold(
         navController = navController,
-        title = "Widgets Screen",
+        title = "Widgets",
         mobileUI = {
-            Basics()
+            Introduction()
+            Anatomy()
+            Implementation()
         }
     )
 }
 
 @Composable
-fun Basics() {
+fun Introduction() {
     Section(
-        title = "Basics",
+        title = "What is a home-screen widget",
         description = """
-            Functionality to add widgets on home screen.
-            
-            As per the development of this app, widgets can only be created using XML layout.
-            
-            The main steps involve:
-            
-            1) Create the widget layout xml and related logic
-            2) Create the widget info xml
-            3) Create the widget provider
-            4) Register the widget in manifest file
+            An app widget is a small, lightweight view that the system renders on the home screen or lock screen, hosted by the launcher. It runs in your app's process but is displayed by another app, so it is built with RemoteViews — a restricted, serialisable view toolkit the launcher can inflate safely — rather than Compose or arbitrary View code. Widgets are how you surface glanceable information (a now-playing control, a countdown, a quick action) without the user opening the app.
+
+            As of the development of this guide, widgets must be built with XML layouts and RemoteViews; Compose Glance is the modern path but is covered separately.
+        """.trimIndent(),
+    )
+}
+
+@Composable
+fun Anatomy() {
+    Section(
+        title = "The three pieces",
+        description = """
+            A widget is the cooperation of three things:
+
+            -AppWidgetProviderInfo (XML in res/xml): the metadata — update period, minimum size, resize mode, preview image, the layout to inflate.
+            -AppWidgetProvider (a BroadcastReceiver subclass): the code that updates the widget's RemoteViews in response to system broadcasts (APPWIDGET_UPDATE, etc.).
+            -The layout (XML in res/layout): the RemoteViews tree the launcher inflates.
+
+            The provider is registered in AndroidManifest.xml with an intent filter for APPWIDGET_UPDATE and a <meta-data> link to the info XML, so the launcher knows the receiver is a widget.
+        """.trimIndent(),
+    )
+}
+
+@Composable
+fun Implementation() {
+    Section(
+        title = "Implementation steps",
+        description = """
+            The build is mechanical once the three pieces exist: create the layout, create the info XML, write the provider that builds RemoteViews and wires click handling through a PendingIntent, then register the provider in the manifest. Always pass PendingIntent.FLAG_IMMUTABLE (or FLAG_MUTABLE deliberately) on Android 12+ — omitting the flag throws at runtime on newer APIs.
         """.trimIndent(),
         code = """
-            // example_widget_layout.xml
-            <?xml version="1.0" encoding="utf-8"?>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/widget_image"
-                    android:layout_width="296dp"
-                    android:layout_height="241dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="8dp"
-                    android:contentDescription="Example widget"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/my_image"
-                    />
-
-            </LinearLayout>
-            
-            // example_widget_info.xml
-            <?xml version="1.0" encoding="utf-8"?>
+            // res/xml/example_widget_info.xml
             <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-            android:updatePeriodMillis="86400000"
-            android:initialLayout="@layout/example_widget_layout"
-            android:widgetCategory="home_screen"
-            android:resizeMode="horizontal|vertical"
-            android:minWidth="100dp"
+                android:updatePeriodMillis="86400000"
+                android:initialLayout="@layout/example_widget_layout"
+                android:widgetCategory="home_screen"
+                android:resizeMode="horizontal|vertical"
+                android:minWidth="100dp"
                 android:minHeight="100dp"
                 android:previewImage="@drawable/my_image" />
 
-            // 
-            
-            // ExampleWidgetProvider
+            // ExampleWidgetProvider.kt
             class ExampleWidgetProvider : AppWidgetProvider() {
                 override fun onUpdate(
                     context: Context,
                     appWidgetManager: AppWidgetManager,
                     appWidgetIds: IntArray
                 ) {
-                    super.onUpdate(context, appWidgetManager, appWidgetIds)
-
                     for (appWidgetId in appWidgetIds) {
-                        val intent = Intent(context, MainActivity::class.java)
                         val pendingIntent = PendingIntent.getActivity(
-                            context,
-                            0,
-                            intent,
-                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE // Add FLAG_IMMUTABLE
+                            context, 0,
+                            Intent(context, MainActivity::class.java),
+                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                         )
-
-                        val views = RemoteViews(context.packageName, R.layout.example_widget_layout).apply {
-                            setOnClickPendingIntent(R.id.widget_image, pendingIntent)
-                        }
-
+                        val views = RemoteViews(context.packageName, R.layout.example_widget_layout)
+                            .apply { setOnClickPendingIntent(R.id.widget_image, pendingIntent) }
                         appWidgetManager.updateAppWidget(appWidgetId, views)
                     }
                 }
             }
-            
-            // register in manifest file
-            ...
-            <application>
-                <receiver
-                    android:name=".widgetproviders.ExampleWidgetProvider"
-                    android:exported="true"
-                    android:label="Example Widget"
-                    android:icon="@mipmap/ic_launcher">
+
+            // AndroidManifest.xml
+            <receiver
+                android:name=".widgetproviders.ExampleWidgetProvider"
+                android:exported="true"
+                android:label="Example Widget">
                 <intent-filter>
                     <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 </intent-filter>
-
                 <meta-data
                     android:name="android.appwidget.provider"
                     android:resource="@xml/example_widget_info" />
-                </receiver>
-            </application>
-            ...
+            </receiver>
         """.trimIndent()
     )
 }

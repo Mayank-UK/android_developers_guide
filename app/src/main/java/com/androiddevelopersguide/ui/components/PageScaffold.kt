@@ -8,7 +8,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -18,22 +21,31 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
+/**
+ * Screen-level scaffold with the quiet global app bar: a surface-toned container with a hairline
+ * bottom divider, the screen [title], a hamburger (on the home route, opens the drawer) or back
+ * arrow (anywhere with a back stack), the caller's [appBarActions], and the theme toggle as the
+ * rightmost action.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PageScaffold(
-//    topBar: @Composable () -> Unit,
     navController: NavController,
     title: String,
     appBarActions: @Composable RowScope.() -> Unit = {},
     mobileUI: @Composable () -> Unit,
     tabletUI: (@Composable () -> Unit)? = null,
     desktopUI: (@Composable () -> Unit)? = null,
-
+    scrollable: Boolean = true,
 ) {
+    val openDrawer = AppChrome.OpenDrawer.current
+    val isDarkTheme = AppChrome.IsDarkTheme.current
+    val toggleTheme = AppChrome.ToggleTheme.current
+
     Scaffold(
-//        topBar = topBar,
         topBar = {
             TopAppBar(
                 title = { Text(title) },
@@ -45,15 +57,29 @@ fun PageScaffold(
                                 contentDescription = "Back button"
                             )
                         }
+                    } else {
+                        IconButton(onClick = openDrawer) {
+                            Icon(
+                                imageVector = Icons.Filled.Menu,
+                                contentDescription = "Open navigation drawer"
+                            )
+                        }
                     }
                 },
-                actions = appBarActions,
+                actions = {
+                    appBarActions()
+                    ThemeToggleButton(darkTheme = isDarkTheme, onToggle = toggleTheme)
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    actionIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
+            )
+            HorizontalDivider(
+                thickness = DividerDefaults.Thickness,
+                color = MaterialTheme.colorScheme.outlineVariant
             )
         }
     ) { padding ->
@@ -61,7 +87,7 @@ fun PageScaffold(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .verticalScroll(rememberScrollState()),
+                .then(if (scrollable) Modifier.verticalScroll(rememberScrollState()) else Modifier),
         ) {
             ResponsiveLayout(
                 mobileUI = { mobileUI() },

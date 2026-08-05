@@ -15,6 +15,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 
@@ -43,29 +44,27 @@ class PostDetailViewModelTest {
         viewModel = PostDetailViewModel(getPostDetailUseCase)
         viewModel.loadPost(1)
 
-        viewModel.post.test {
-            assertEquals(post, awaitItem())
-        }
-
-        viewModel.isLoading.test {
-            assertEquals(false, awaitItem())
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertEquals(post, state.post)
+            assertEquals(false, state.isLoading)
+            assertNull(state.failure)
         }
     }
 
     @Test
     fun `loadPost should update state on error`() = runTest {
-        val errorMessage = "Error loading post"
-        coEvery { getPostDetailUseCase(1) } returns Result.Failed(ServerFailure(errorMessage))
+        val failure = ServerFailure("Error loading post")
+        coEvery { getPostDetailUseCase(1) } returns Result.Failed(failure)
 
         viewModel = PostDetailViewModel(getPostDetailUseCase)
         viewModel.loadPost(1)
 
-        viewModel.error.test {
-            assertEquals(errorMessage, awaitItem())
-        }
-
-        viewModel.isLoading.test {
-            assertEquals(false, awaitItem())
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertEquals(failure, state.failure)
+            assertEquals(false, state.isLoading)
+            assertNull(state.post)
         }
     }
 }

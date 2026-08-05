@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlinAndroidKsp)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinKapt)
 }
 
 android {
@@ -13,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.androiddevelopersguide"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,9 +42,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     flavorDimensions += "environment"
     productFlavors {
@@ -94,6 +90,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)

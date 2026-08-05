@@ -45,15 +45,14 @@
         <service
             android:name=".services.PlaySoundService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
 
-        <receiver
-            android:name=".broadcastreceivers.NetworkConnectivityReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
+        <!--
+            NetworkConnectivityReceiver is registered dynamically at runtime in
+            MainActivity.onCreate; the static declaration here is removed because
+            it duplicates that registration and relies on the deprecated
+            CONNECTIVITY_ACTION (a no-op for apps targeting N+).
+        -->
 
         <receiver
             android:name=".widgetproviders.ExampleWidgetProvider"
@@ -72,7 +71,7 @@
         <provider
             android:name=".contentproviders.userprovider.UserProvider"
             android:authorities="${contentProviderAuthority}"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 

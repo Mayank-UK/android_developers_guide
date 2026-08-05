@@ -1,7 +1,6 @@
 package com.androiddevelopersguide.ui.navigation
 
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -14,6 +13,7 @@ import com.androiddevelopersguide.ui.screens.apihandling.ApiHandlingScreen
 import com.androiddevelopersguide.ui.screens.apihandling.subscreens.postdetail.PostDetailScreen
 import com.androiddevelopersguide.ui.screens.apihandling.subscreens.posts.PostsScreen
 import com.androiddevelopersguide.ui.screens.architecture.ArchitectureScreen
+import com.androiddevelopersguide.ui.screens.about.AboutScreen
 import com.androiddevelopersguide.ui.screens.bestpractices.BestPracticesScreen
 import com.androiddevelopersguide.ui.screens.databasehandling.DatabaseHandlingScreen
 import com.androiddevelopersguide.ui.screens.dependencymanagement.DependencyManagementScreen
@@ -63,19 +63,17 @@ import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.intent.Inten
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.notification.NotificationScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.service.ServiceScreen
 import com.androiddevelopersguide.ui.screens.otherbasics.subscreens.workmanager.WorkManagerScreen
-import com.androiddevelopersguide.ui.screens.temp.TempScreen
 import com.androiddevelopersguide.ui.screens.widgets.WidgetsScreen
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     NavHost(navController, startDestination = NavRouter.HomeScreen.route, modifier) {
-        composable(NavRouter.TempScreen.route) { TempScreen(navController = navController) }
-
         composable(NavRouter.HomeScreen.route) { HomeScreen(navController = navController) }
+
+        composable(NavRouter.AboutScreen.route) { AboutScreen(navController = navController) }
 
         // android fundamentals
         composable(NavRouter.AndroidFundamentalsScreen.route) { AndroidFundamentalsScreen(navController = navController) }
@@ -147,10 +145,14 @@ fun NavGraph(
         composable(NavRouter.ApiHandlingScreen.route) { ApiHandlingScreen(navController = navController) }
             composable(NavRouter.PostsScreen.route) { PostsScreen(navController = navController) }
             composable(
-                NavRouter.PostDetailScreen.route + NavRouter.PostDetailScreen.objectPath,
-                arguments = listOf(navArgument(NavRouter.PostDetailScreen.objectName) { type = NavType.IntType })
+                NavRouter.PostDetailScreen.ROUTE_WITH_ARG,
+                arguments = listOf(navArgument(NavRouter.PostDetailScreen.ARG_POST_ID) { type = NavType.IntType })
             ) { backStackEntry ->
-                val postId = backStackEntry.arguments?.getInt(NavRouter.PostDetailScreen.objectName) ?: return@composable
+                // requireNotNull so a programming error (missing arg) surfaces in dev instead of
+                // silently rendering a blank screen.
+                val postId = requireNotNull(backStackEntry.arguments?.getInt(NavRouter.PostDetailScreen.ARG_POST_ID)) {
+                    "PostDetailScreen destination requires an Int '${NavRouter.PostDetailScreen.ARG_POST_ID}' argument"
+                }
                 PostDetailScreen(navController = navController,postId = postId)
             }
 

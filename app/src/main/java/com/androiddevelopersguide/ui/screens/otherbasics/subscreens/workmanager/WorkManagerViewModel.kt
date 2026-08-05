@@ -1,65 +1,49 @@
 package com.androiddevelopersguide.ui.screens.otherbasics.subscreens.workmanager
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import androidx.work.workDataOf
 import com.androiddevelopersguide.workmanagers.CounterRepository
 import com.androiddevelopersguide.workmanagers.CounterWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.stateIn
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 // WorkManagerViewModel.kt
 @HiltViewModel
 class WorkManagerViewModel @Inject constructor(
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    counterRepository: CounterRepository
 ) : ViewModel() {
 
-    val counter: StateFlow<Int> = CounterRepository.counter
+    // The UI observes the persisted counter directly — the single source of truth. Each
+    // periodic CounterWorker run reads → increments → writes this value, so it advances across
+    // runs even though PeriodicWorkRequest does not chain output into the next run's input.
+    val counter: StateFlow<Int> = counterRepository.counter
+        .stateIn(viewModelScope, SharingStarted.Eagerly, 0)
 
     fun startCounter() {
-        val initialCount = counter.value
-        val inputData = workDataOf(CounterWorker.KEY_COUNTER to initialCount)
-
         val workRequest = PeriodicWorkRequestBuilder<CounterWorker>(15, TimeUnit.MINUTES)
-            .setInputData(inputData)
             .build()
 
         workManager.enqueueUniquePeriodicWork(
-            "counter_work",
+            COUNTER_WORK_NAME,
             ExistingPeriodicWorkPolicy.UPDATE,
             workRequest
         )
     }
 
     fun stopCounter() {
-        workManager.cancelUniqueWork("counter_work")
+        workManager.cancelUniqueWork(COUNTER_WORK_NAME)
     }
 
-    init {
-        workManager.getWorkInfosForUniqueWorkLiveData("counter_work")
-            .asFlow()
-            .onEach { workInfoList ->
-                workInfoList.lastOrNull()?.let { workInfo ->
-                    if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                        val newCount = workInfo.outputData.getInt(CounterWorker.KEY_COUNTER, counter.value)
-                        CounterRepository.setCounter(newCount)
-                    }
-                }
-            }
-            .launchIn(viewModelScope)
+    companion object {
+        private const val COUNTER_WORK_NAME = "counter_work"
     }
 }

@@ -52,7 +52,7 @@ object ExceptionMapper {
 
     private fun mapDatabase(exception: DatabaseException, cause: Failure?): CacheFailure =
         CacheFailure(
-            mapDatabaseMessage(exception.message),
+            mapDatabaseMessage(exception),
             FailureSeverity.INFO,
             cause,
             exception.toString()
@@ -101,12 +101,17 @@ object ExceptionMapper {
         }
     }
 
-    private fun mapDatabaseMessage(technicalMessage: String): String = when {
-        technicalMessage.contains("read", ignoreCase = true) -> "Failed to read saved data."
-        technicalMessage.contains("write", ignoreCase = true) -> "Failed to save data locally."
-        technicalMessage.contains("delete", ignoreCase = true) -> "Failed to remove saved data."
-        technicalMessage.contains("connection", ignoreCase = true) -> "Local database connection issue."
-        else -> "Local data storage issue occurred."
+    /**
+     * Branch on the exception's typed [DatabaseException.Kind] discriminator rather than
+     * substring-matching the prose message, so user-facing text is stable and decoupled from
+     * the exact wording the data layer happens to use.
+     */
+    private fun mapDatabaseMessage(exception: DatabaseException): String = when (exception.kind) {
+        DatabaseException.Kind.READ -> "Failed to read saved data."
+        DatabaseException.Kind.WRITE -> "Failed to save data locally."
+        DatabaseException.Kind.DELETE -> "Failed to remove saved data."
+        DatabaseException.Kind.CONNECTION -> "Local database connection issue."
+        DatabaseException.Kind.GENERIC -> "Local data storage issue occurred."
     }
 }
 

@@ -15,6 +15,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -42,12 +44,11 @@ class PostsViewModelTest {
 
         viewModel = PostsViewModel(getPostsUseCase)
 
-        viewModel.posts.test {
-            assertEquals(posts, awaitItem())
-        }
-
-        viewModel.isLoading.test {
-            assertEquals(false, awaitItem())
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertEquals(posts, state.posts)
+            assertEquals(false, state.isLoading)
+            assertNull(state.failure)
         }
     }
 
@@ -58,12 +59,11 @@ class PostsViewModelTest {
 
         viewModel = PostsViewModel(getPostsUseCase)
 
-        viewModel.failure.test {
-            assertEquals(failure, awaitItem())
-        }
-
-        viewModel.isLoading.test {
-            assertEquals(false, awaitItem())
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertTrue(state.posts.isEmpty())
+            assertEquals(false, state.isLoading)
+            assertEquals(failure, state.failure)
         }
     }
 }

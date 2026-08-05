@@ -2,7 +2,6 @@ package com.androiddevelopersguide.ui.screens.jetpackcompose.subscreens.uielemen
 
 import androidx.lifecycle.ViewModel
 import com.androiddevelopersguide.domain.models.LinkData
-import com.androiddevelopersguide.ui.navigation.NavRouter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -10,7 +9,7 @@ import javax.inject.Inject
 class UiElementsCatalogViewModel @Inject constructor(
 ) : ViewModel() {
 
-    val links = listOf(
-        LinkData(title = "Temp", routePath = NavRouter.TempScreen.route),
-    )
+    // Catalog entries are surfaced here as the UI elements land. The placeholder "Temp"
+    // entry (which navigated to dead scaffolding) was removed during the code-review cleanup.
+    val links: List<LinkData> = emptyList()
 }

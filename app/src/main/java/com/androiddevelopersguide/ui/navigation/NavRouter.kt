@@ -2,12 +2,10 @@ package com.androiddevelopersguide.ui.navigation
 
 sealed class NavRouter(
     val route: String,
-    val objectName: String = "",
-    val objectPath: String = ""
 ) {
-    object TempScreen : NavRouter("temp")
-
     object HomeScreen : NavRouter("home")
+
+    object AboutScreen : NavRouter("about")
 
     // android fundamental
     object AndroidFundamentalsScreen : NavRouter("android_fundamentals")
@@ -73,7 +71,13 @@ sealed class NavRouter(
     // api handling
     object ApiHandlingScreen : NavRouter("api_handling")
         object PostsScreen : NavRouter("posts")
-        object PostDetailScreen : NavRouter("post_detail", objectName = "postId", objectPath = "/{postId}")
+        object PostDetailScreen : NavRouter("post_detail") {
+            /** Name of the post-id nav argument. */
+            const val ARG_POST_ID = "postId"
+
+            /** Route template (with arg placeholder) for registering the composable destination. */
+            const val ROUTE_WITH_ARG = "post_detail/{$ARG_POST_ID}"
+        }
 
     // database handling
     object DatabaseHandlingScreen : NavRouter("database_handling")

@@ -44,11 +44,6 @@ class FailingPostDao(
         return inner.getPostById(id)
     }
 
-    override suspend fun getPostsByUserId(userId: Int): List<PostEntity> {
-        checkRead()
-        return inner.getPostsByUserId(userId)
-    }
-
     override suspend fun insertPosts(posts: List<PostEntity>) {
         checkWrite()
         inner.insertPosts(posts)

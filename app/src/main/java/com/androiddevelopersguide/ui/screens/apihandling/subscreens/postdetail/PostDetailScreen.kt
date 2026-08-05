@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,16 +18,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.androiddevelopersguide.core.failures.FailureSeverity
 import com.androiddevelopersguide.domain.models.Post
-
 import com.androiddevelopersguide.ui.components.PageScaffold
+import com.androiddevelopersguide.ui.components.error.ErrorBanner
+import com.androiddevelopersguide.ui.components.error.ErrorSnackbar
+import com.androiddevelopersguide.ui.components.error.ErrorView
 
 @Composable
 fun PostDetailScreen(
@@ -34,10 +36,7 @@ fun PostDetailScreen(
     viewModel: PostDetailViewModel = hiltViewModel(),
     postId: Int
 ) {
-    val post by viewModel.post.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val error by viewModel.error.collectAsState()
-    val configuration = LocalConfiguration.current
+    val uiState by viewModel.uiState.collectAsState()
 
     // use LaunchedEffect if viewModel is already initialized and parameter is passed later, instead of init in viewModel
     LaunchedEffect(postId) {
@@ -48,29 +47,43 @@ fun PostDetailScreen(
         navController = navController,
         title = "Post detail Screen",
         mobileUI = {
+            val currentFailure = uiState.failure
+            val currentPost = uiState.post
             when {
-                isLoading -> {
+                uiState.isLoading -> {
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .height(configuration.screenHeightDp.dp),
+                        modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator()
                     }
                 }
-                error != null -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .height(configuration.screenHeightDp.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = error ?: "Unknown error", color = Color.Red)
+                // Blocking: no post to show and an error occurred.
+                currentFailure != null && currentPost == null -> {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        ErrorView(
+                            failure = currentFailure,
+                            onRetry = { viewModel.loadPost(postId) }
+                        )
                     }
                 }
-                post != null -> {
-                    PostDetail(post = post!!)
+                currentPost != null -> {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        // Non-blocking: we have data, surface the failure transiently by severity.
+                        currentFailure?.let { nonBlockingFailure ->
+                            when (nonBlockingFailure.severity) {
+                                FailureSeverity.INFO -> ErrorSnackbar(
+                                    failure = nonBlockingFailure,
+                                    onDismiss = { viewModel.clearFailure() }
+                                )
+                                FailureSeverity.WARNING, FailureSeverity.CRITICAL -> ErrorBanner(
+                                    failure = nonBlockingFailure,
+                                    onDismiss = { viewModel.clearFailure() }
+                                )
+                            }
+                        }
+                        PostDetail(post = currentPost)
+                    }
                 }
             }
         }
@@ -84,18 +97,21 @@ fun PostDetail(post : Post) {
         Box(Modifier.padding(16.dp)) {
             Column(
                 modifier = Modifier
-                    .background(color = Color.Gray, shape = RoundedCornerShape(8.dp),)
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        shape = RoundedCornerShape(8.dp),
+                    )
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
                 Text(
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     text = "Post title:\n${postItem.title}"
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    color = Color.White,
-                    text ="Post body:\n${postItem.body}"
+                    color = MaterialTheme.colorScheme.onSurface,
+                    text = "Post body:\n${postItem.body}"
                 )
             }
         }

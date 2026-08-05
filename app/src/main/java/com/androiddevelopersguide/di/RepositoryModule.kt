@@ -1,24 +1,30 @@
 package com.androiddevelopersguide.di
 
-import com.androiddevelopersguide.data.local.daos.PostDao
-import com.androiddevelopersguide.data.remote.ApiService
 import com.androiddevelopersguide.data.repositoryimplementations.PostRepositoryImpl
+import com.androiddevelopersguide.data.repositoryimplementations.ThemeRepositoryImpl
 import com.androiddevelopersguide.domain.repositoryinterfaces.PostRepository
+import com.androiddevelopersguide.domain.repositoryinterfaces.ThemeRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Binds repository interfaces to their implementations. Both impls already carry
+ * `@Inject constructor`, so `@Binds` is the idiomatic, lower-overhead way to wire them
+ * (Hilt generates the factory rather than us hand-writing a `@Provides`). Scoping lives
+ * here as the single source of truth — the impls themselves are not annotated with `@Singleton`.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
-    @Provides
+abstract class RepositoryModule {
+
+    @Binds
     @Singleton
-    fun providePostRepository(
-        api: ApiService,
-        dao: PostDao
-    ): PostRepository {
-        return PostRepositoryImpl(api, dao)
-    }
+    abstract fun bindPostRepository(impl: PostRepositoryImpl): PostRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindThemeRepository(impl: ThemeRepositoryImpl): ThemeRepository
 }

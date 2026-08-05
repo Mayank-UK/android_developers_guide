@@ -31,6 +31,11 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             APP_DATABASE_NAME
-        ).build()
+        )
+            // Reference app: schema changes during development would otherwise crash with
+            // an IllegalStateException. Destructive migration is acceptable here because the
+            // local cache is fully reproducible from the remote source.
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }
