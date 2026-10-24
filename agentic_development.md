@@ -1,25 +1,32 @@
 # AI defined section:
 
-## Content depth on shallow topic screens (Chunk C)
-- Brought the shallow topic screens up to the `KotlinFundamentalsScreen` depth bar using the existing `Section(title, description, code?)` building block. Each enriched screen opens with a "what & why" intro, then walks the topic across multiple `Section`s with code samples. Content lives as composable functions in each `*Screen.kt` (mirrors the Kotlin screen's pattern); the empty Hilt `*ViewModel` stubs are left as-is.
-- Enriched: `Architecture` (layers, dependency rule, this app's package tree, domain/data/core, Hilt DI, error boundary, why), `DependencyManagement` (Gradle, `libs.versions.toml` version catalog, dev/staging/prod flavors on the "environment" dimension, BuildConfig, KSP vs kapt), `DatabaseHandling` (Room entity/DAO/AppDatabase, repository single-source-of-truth, per-flavor DAO binding, migrations concept), `ApiHandling` (Retrofit/ApiService/PostDto, dev `FailureInjectionInterceptor`, PostMapper, `guardedApiCall`/`safeRepositoryCall`, `ExceptionMapper` → Failure), `Deployment` (APK vs AAB, flavors→variants, versionCode/versionName, signing, Play Console tracks), `BestPractices` (SOLID/DRY/KISS/YAGNI/SSoT/immutability mapped to concrete spots in this app, UI practices), `AndroidFundamentals` (also fixed a duplicate `GeneralInformation()` call), `Widgets` (anatomy + RemoteViews impl).
-- Hub screens that only index subscreens (`JetpackCompose`, `Lifecycle`, `OtherBasics`) were deliberately left as `Links` index pages — they are not shallow, their depth lives in the subscreens.
-- Every concrete claim about the app's own code was verified by reading the referenced source (`core/result`, `core/failures/*`, `core/guards/*`, `core/mapping`, `domain/`, `data/`, `di/`, `app/build.gradle.kts`, `gradle/libs.versions.toml`, `app/src/dev`). No fabricated APIs. `assembleDevDebug` BUILD SUCCESSFUL.
+## Current state
+- Clean-architecture Compose teaching app: domain (pure) / data (repositories, Room, Retrofit) / core (result, failures, guards, mapping) /
+  ui (screens + components), Hilt DI, dev/staging/prod flavors on the "environment" dimension (libs.versions.toml catalog, KSP not kapt).
+- Teaching pattern: content lives as composable functions in each *Screen.kt using Section(title, description, code?) blocks; hub screens that
+  only index subscreens (JetpackCompose, Lifecycle, OtherBasics) deliberately stay Links index pages; empty Hilt *ViewModel stubs left as-is.
+  Every concrete claim about app code was verified against the referenced source; no fabricated APIs; `assembleDevDebug` build successful.
+- Theme (persisted, clean layers): AppTheme enum (Light/Dark/System, DataStore key `rdg-theme`) in domain/models; ThemeRepository/Impl
+  (DataStore Preferences, file `app_preferences`); Observe/SetThemeUseCase; app-scoped ThemeViewModel (ui/screens/theme/). MainActivity
+  hoists ThemeViewModel + DrawerState; resolveDarkTheme() → AndroidDevelopersGuideTheme(darkTheme=...). Root Surface = MaterialTheme.background.
+- Chrome: drawer-open / dark-state / theme-toggle published via AppChrome CompositionLocals (ui/components/LocalAppChrome.kt) — PageScaffold
+  and ThemeToggleButton read locals, no prop-drilling. PageScaffold = quiet app bar (surface container, outlineVariant hairline divider,
+  back-arrow-or-hamburger, caller appBarActions, ThemeToggleButton rightmost). Drawer = Material3 ModalNavigationDrawer in MainActivity
+  (hosts the About entry; route NavRouter.AboutScreen "about" → ui/screens/about/AboutScreen.kt).
+- Home: HomeViewModel exposes List<LinkCategory> (Fundamentals / UI / Architecture & data / Platform & tooling) rendering descriptive
+  LinkCards responsively (1/2/3 columns via rememberWindowSize); XML-layout entry via HomeViewModel.XML_LAYOUT_ROUTE sentinel →
+  XmlLayoutActivity (startActivity); EnvironmentBadge preserved. Grid is a NON-lazy Column on purpose — PageScaffold wraps content in a
+  verticalScroll Column (a nested lazy vertical list hits infinite-height constraints); do not "fix" it to LazyVerticalGrid.
+- Shared components: ui/components/LinkCard.kt (surfaceContainer card, hairline outline border, optional leading primary-tinted icon,
+  onSurface title + one-line onSurfaceVariant description, trailing primary arrow) — used by home grid AND Links (DRY). LinkData schema has
+  nullable description/icon/category; LinkIcon is a pure-Kotlin enum in domain/models/LinkData.kt resolved to ImageVector via
+  LinkIcon.toImageVector() (ui/components/LinkIcon.kt) — domain stays UI-framework-free; existing call sites compile unchanged.
+- Section styling is fully theme-driven (no hardcoded grayscale): bg surfaceContainer, border outline, demo box surfaceContainerHigh, code
+  surfaceContainerHighest + onSurface text (readable both themes), description onSurfaceVariant, toggle in primary, short primary accent bar.
 
-## Home + dark-mode-aware components (Chunk B)
-- `LinkData` schema widened to `description: String?`, `icon: LinkIcon?`, `category: String?`. Domain stays UI-framework-free: `LinkIcon` is a pure-Kotlin enum key in `domain/models/LinkData.kt`, resolved to a Compose `ImageVector` in the UI layer via `LinkIcon.toImageVector()` (`ui/components/LinkIcon.kt`). All existing call sites compile unchanged (new fields default to null).
-- Shared card component: `ui/components/LinkCard.kt` — surface-toned (`surfaceContainer`) card, hairline `outline` border, optional leading primary-tinted icon, title + one-line description (`onSurface`/`onSurfaceVariant`), trailing primary accent arrow. Used by both the home grid and `Links` (DRY — `Links` now delegates to `LinkCard`).
-- `Section` color mapping (all theme-driven, no hardcoded grayscale): card background `surfaceContainer`, hairline `outline` border, demo box `surfaceContainerHigh`, code block `surfaceContainerHighest` with `onSurface` text (readable in both themes), description text `onSurfaceVariant`, "Show/Hide code" toggle in `primary`. Title is preceded by a short `primary` accent bar (the React-guide section header treatment).
-- Home (`HomeScreen` + `HomeViewModel`): data lives in the VM as `List<LinkCategory>` (`LinkCategory` is a small data class in `HomeViewModel.kt`), grouped into Fundamentals / UI / Architecture & data / Platform & tooling. Hero intro + per-category titled sections render descriptive `LinkCard`s in a responsive row layout (1/2/3 columns via `rememberWindowSize`). XML-layout entry is a card too, routed via the `HomeViewModel.XML_LAYOUT_ROUTE` sentinel and dispatched to `XmlLayoutActivity` via `startActivity`. `EnvironmentBadge` preserved.
-- Note: nested a non-lazy Column grid (not `LazyVerticalGrid`) because `PageScaffold` wraps content in a `verticalScroll` Column; a nested lazy vertical list would hit infinite-height constraints.
-
-## Theme + chrome architecture (Chunk A)
-- Persisted theme preference follows clean layers: `AppTheme` enum (Light/Dark/System, storage key `rdg-theme`) in `domain/models`, `ThemeRepository`/`ThemeRepositoryImpl` (DataStore Preferences, file `app_preferences`), `ObserveThemeUseCase`/`SetThemeUseCase`, and app-scoped `ThemeViewModel` (`ui/screens/theme/`). DI: `DataStoreModule` provides the DataStore, `RepositoryModule` binds the impl.
-- `MainActivity` hoists `ThemeViewModel` and the `DrawerState`. `resolveDarkTheme()` turns `AppTheme` into the effective boolean, passed to `AndroidDevelopersGuideTheme(darkTheme = ...)`.
-- Cross-cutting chrome (drawer open, dark state, theme toggle) is published through `AppChrome` CompositionLocals in `ui/components/LocalAppChrome.kt`, so `PageScaffold` and `ThemeToggleButton` read them without per-screen prop-drilling.
-- `PageScaffold` is the quiet app bar: `surface` container, `outlineVariant` hairline `HorizontalDivider`, back arrow when there is a back stack else a hamburger that opens the drawer, caller `appBarActions`, and the `ThemeToggleButton` as the rightmost action.
-- Drawer is a Material3 `ModalNavigationDrawer` in `MainActivity`; currently hosts the About entry. About route is `NavRouter.AboutScreen` ("about"), screen at `ui/screens/about/AboutScreen.kt`.
-- Root `Surface` now uses `MaterialTheme.colorScheme.background` (was hardcoded `Color.White`).
+## Active tasks
+- None open in the AI section — Chunks A–C are complete; the senior-review fix batch (Chunks D) and its deferred follow-ups are tracked in
+  the Developer defined section below.
 
 # Developer defined section
 
